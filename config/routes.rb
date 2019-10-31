@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
+  root 'chem_pages#home'
   get 'chem_pages/home'
   get 'chem_pages/help'
-  root 'application#hello'
+  get 'chem_pages/about'
 end
