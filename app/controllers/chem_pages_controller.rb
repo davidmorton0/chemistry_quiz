@@ -4,4 +4,7 @@ class ChemPagesController < ApplicationController
 
   def help
   end
+  
+  def about
+  end
 end
