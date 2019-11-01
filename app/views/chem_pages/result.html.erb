@@ -1,0 +1,28 @@
+<% provide(:title, "Answer") %>
+<% provide(:title, "Quiz") %>
+<h1>Chemical Symbol Quiz</h1>
+
+<p>You scored <%= @score %> out of 4</p>
+<p>
+<%=
+  if @score == 4
+    'Well Done'
+  elsif @score == 3
+    'Nearly'
+  elsif @score > 0
+    'Keep Trying'
+  else
+    'Oh dear'
+  end
+%>
+</p>
+
+<%= form_for(:quiz, url: quiz_path) do |f| %>
+  <%= f.submit "Start Again" %>
+  
+  <%= f.hidden_field :question_number, value: @question_number %>
+  <%= f.hidden_field :page, value: :result %>
+  <%= f.hidden_field :score, value: @score %>
+<% end %>
+
+<%= params %>
