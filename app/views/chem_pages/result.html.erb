@@ -2,12 +2,12 @@
 <% provide(:title, "Quiz") %>
 <h1>Chemical Symbol Quiz</h1>
 
-<p>You scored <%= @score %> out of 4</p>
+<p>You scored <%= @score %> out of <%= @num_questions %></p>
 <p>
 <%=
-  if @score == 4
+  if @score == @num_questions
     'Well Done'
-  elsif @score == 3
+  elsif @score == @num_questions - 1
     'Nearly'
   elsif @score > 0
     'Keep Trying'
