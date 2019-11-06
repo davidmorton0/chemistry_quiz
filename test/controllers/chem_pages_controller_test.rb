@@ -59,8 +59,8 @@ class ChemPagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Quiz#{@base_title}"
     assert_select "h1", "Chemical Symbol Quiz"
     assert_select "p", "1. What is the chemical symbol for Hydrogen?"
-    assert_match 'H✔️', response.body
-    assert_match 'C❌', response.body
+    assert_match /H\s*✔️/, response.body
+    assert_match /C\s*❌/, response.body
     assert_select "input[type=?]", 'radio', count: 4
     assert_select "input[type=?]", 'submit', count: 1
     assert_select "input[value=?]", '0', count: 1
@@ -84,7 +84,7 @@ class ChemPagesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     assert_response :success
-    assert_match 'Tb✔️', response.body
+    assert_match /Tb\s*✔️/, response.body
     assert_no_match '❌', response.body
     assert_select "input[value=?]", '2', count: 1
     assert_select "input[value=?]", '4', count: 1
@@ -106,7 +106,7 @@ class ChemPagesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     assert_response :success
-    assert_match 'H✔️', response.body
+    assert_match /H\s*✔️/, response.body
     assert_no_match '❌', response.body
     assert_select "input[value=?]", '1', count: 1
     assert_select "input[value=?]", '0', count: 1
