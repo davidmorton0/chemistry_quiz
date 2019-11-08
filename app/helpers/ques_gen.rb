@@ -1,24 +1,7 @@
 require 'chem_data.rb'
 
-module ApplicationHelper
-  class Question
-    def initialize(prompt, possible_answers, correct_answer)
-      @prompt = prompt
-      @possible_answers = possible_answers
-      @correct_answer = correct_answer
-    end
-  end
-
-  def full_title(page_title = '')
-    base_title = "Chemistry Quiz"
-    if page_title.empty?
-      base_title
-    else
-      page_title + " | " + base_title
-    end
-  end
-  
-  def question_data()
+module QuesGen
+  def symbol_question(quiz_id)
     test_elements = 98
     answers = 4
     #select element for question
@@ -37,10 +20,12 @@ module ApplicationHelper
     while possible_answers.uniq.length < 4
       possible_answers.push((65 + rand(26)).chr + (97 + rand(26)).chr)
     end
-    Question.new(
-      "What is the chemical symbol for #{ChemData::Element[q][:Name]}?",
-      ((possible_answers.uniq - [ChemData::Element[q][:Symbol]]).shuffle.take(answers - 1) + [ChemData::Element[q][:Symbol]]).shuffle,
-      ChemData::Element[q][:Symbol],
+    ps = ((possible_answers.uniq - [ChemData::Element[q][:Symbol]]).shuffle.take(answers - 1) + [ChemData::Element[q][:Symbol]]).shuffle
+    question = Question.new(
+      prompt: "What is the chemical symbol for #{ChemData::Element[q][:Name]}?",
+      answer_A: ps[0], answer_B: ps[1], answer_C: ps[2], answer_D: ps[3],
+      correct_answer: ChemData::Element[q][:Symbol], quiz: Quiz.find(quiz_id)
     )
-  end 
+    question.save
+  end
 end

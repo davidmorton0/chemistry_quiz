@@ -1,0 +1,17 @@
+<h1>Listing Questions</h1>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Prompt</th>
+    <th></th>
+  </tr>
+
+  <% @questions.each do |question| %>
+    <tr>
+      <td><%= question.id %></td>
+      <td><%= question.prompt %></td>
+      <td><%= link_to 'Show', question_path(question) %></td>
+    </tr>
+  <% end %>
+</table>

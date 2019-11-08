@@ -1,0 +1,34 @@
+<h1><%= @quiz.title %></h1>
+<div class="center">
+  <%= link_to "Start again", new_quiz_path, class: "btn btn-lg btn-primary" %>
+</div>
+<p>
+  <strong>Quiz ID:</strong>
+  <%= @quiz.id %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @quiz.score %>
+</p>
+
+<p>
+  <strong>Number of Questions:</strong>
+  <%= @quiz.num_questions %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= User.find(@quiz.user_id).name %>
+</p>
+
+<% question_number = 1 %>
+
+<%= form_for(@quiz, url: quiz_path, method: "patch") do |form| %>
+  <p>
+    <%= form.submit "Check All Answers" %>
+  </p>
+
+<% end %>
+
+<%= render @quiz.questions %>
