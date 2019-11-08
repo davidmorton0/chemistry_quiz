@@ -1,3 +1,5 @@
+#require '~/environment/repos/chemistry_quiz/app/models/quizzes/chem_symbol.rb'
+
 class ChemPagesController < ApplicationController
   def home
   end
@@ -15,6 +17,7 @@ class ChemPagesController < ApplicationController
     @question_number = 1
     @page = :question
     @score = 0
+    @question = question_data
     render 'chem_pages/quiz'
   end
 
@@ -24,6 +27,12 @@ class ChemPagesController < ApplicationController
     @score = params[:quiz][:score].to_i
     if params[:quiz][:page] == 'question'
       @page = :answer
+      @question = Question.new(params['quiz'][:question],
+                    [params['quiz'][:answer_A],
+                     params['quiz'][:answer_B],
+                     params['quiz'][:answer_C],
+                     params['quiz'][:answer_D]],
+                     params['quiz'][:correct_answer])
       render 'chem_pages/quiz'    
     elsif params[:quiz][:page] == 'answer'
       if @question_number == @num_questions
@@ -31,6 +40,7 @@ class ChemPagesController < ApplicationController
       else
         @page = :question
         @question_number += 1
+        @question = question_data
         render 'chem_pages/quiz'
       end
     elsif params[:quiz][:page] == 'result'
