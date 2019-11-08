@@ -1,24 +1,15 @@
 require 'chem_data.rb'
 
-module ApplicationHelper
-  class Question
-    def initialize(prompt, possible_answers, correct_answer)
-      @prompt = prompt
-      @possible_answers = possible_answers
-      @correct_answer = correct_answer
-    end
-  end
-
-  def full_title(page_title = '')
-    base_title = "Chemistry Quiz"
-    if page_title.empty?
-      base_title
-    else
-      page_title + " | " + base_title
-    end
+class QuestionsController < ApplicationController
+  def index
+    @questions = Question.all
   end
   
-  def question_data()
+  def show
+    @question = Question.find(params[:id])
+  end
+  
+  def new
     test_elements = 98
     answers = 4
     #select element for question
@@ -37,10 +28,27 @@ module ApplicationHelper
     while possible_answers.uniq.length < 4
       possible_answers.push((65 + rand(26)).chr + (97 + rand(26)).chr)
     end
-    Question.new(
-      "What is the chemical symbol for #{ChemData::Element[q][:Name]}?",
-      ((possible_answers.uniq - [ChemData::Element[q][:Symbol]]).shuffle.take(answers - 1) + [ChemData::Element[q][:Symbol]]).shuffle,
-      ChemData::Element[q][:Symbol],
+    ps = ((possible_answers.uniq - [ChemData::Element[q][:Symbol]]).shuffle.take(answers - 1) + [ChemData::Element[q][:Symbol]]).shuffle
+    @question = Question.new(
+      prompt: "What is the chemical symbol for #{ChemData::Element[q][:Name]}?",
+      answer_A: ps[0], answer_B: ps[1], answer_C: ps[2], answer_D: ps[3],
+      correct_answer: ChemData::Element[q][:Symbol], quiz: Quiz.find(0), answered: false
     )
-  end 
+    @question.save
+    render 'new'
+  end
+  
+  def update
+    @question = Question.find(params[:id])
+    if params[:answer] && !@question.answered
+      @question.update(answered: true, chosen_answer: params[:answer])
+      if @question.chosen_answer == @question.correct_answer then Quiz.increment_counter(:score, @question.quiz) end
+    end
+    redirect_to Quiz.find(@question.quiz_id)
+  end
+  
+  private
+    def question_params
+      params.require(:question).permit(:prompt, :answer_A, :answer_B, :answer_C, :answer_D, :correct_answer, :quiz, :answered, :chosen_answer)
+    end
 end
