@@ -1,10 +1,8 @@
 require 'test_helper'
 class ChemPagesControllerTest < ActionDispatch::IntegrationTest
   
-  def setup
-    @base_title = " | Chemistry Quiz"
-  end
-
+  setup
+  
   test "should get home" do
     get root_path
     assert_response :success

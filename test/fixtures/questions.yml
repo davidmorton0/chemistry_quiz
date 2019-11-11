@@ -1,19 +1,35 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  prompt: MyString
-  answer_A: MyString
-  answer_B: MyString
-  answer_C: MyString
-  answer_D: MyString
-  correct_answer: MyString
-  quiz: one
+  id: 20
+  prompt: "What is the chemical symbol for Dysprosium?"
+  answer_A: "J"
+  answer_B: "Dy"
+  answer_C: "M"
+  answer_D: "Zs"
+  correct_answer: "Dy"
+  quiz_id: 5
+  answered: false
+  chosen_answer: nil
 
 two:
-  prompt: MyString
-  answer_A: MyString
-  answer_B: MyString
-  answer_C: MyString
-  answer_D: MyString
-  correct_answer: MyString
-  quiz: two
+  id: 21
+  prompt: "What is the chemical symbol for Technetium?"
+  answer_A: "Te"
+  answer_B: "Th"
+  answer_C: "Tm"
+  answer_D: "Tc"
+  correct_answer: "Tc"
+  quiz_id: 5
+  answered: true
+  chosen_answer: "Tc"
+
+three:
+  id: 22
+  prompt: "What is the chemical symbol for Potassium?"
+  answer_A: "K"
+  answer_B: "O"
+  answer_C: "Pm"
+  answer_D: "Po"
+  correct_answer: "K"
+  quiz_id: 5
+  answered: true
+  chosen_answer: "Po"

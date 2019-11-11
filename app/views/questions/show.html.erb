@@ -1,13 +1,44 @@
-<h2>Question</h2>
-
+<% provide(:title, "Question") %>
 <p>
-  <strong>Title:</strong>
-  <%= @question.prompt %>
+  <strong>Question ID:</strong><%= @question.id %>
 </p>
 
 <p>
-  <%= @question.answer_A %>
-  <%= @question.answer_B %>
-  <%= @question.answer_C %>
-  <%= @question.answer_D %>
+  <strong>Quiz ID:</strong><%= @question.quiz_id %>
 </p>
+
+<p>
+  <strong>Prompt:</strong><%= @question.prompt %>
+</p>
+
+<p>
+  <strong>Answers:</strong>
+</p>
+
+<ul>
+  <li><%= @question.answer_A %></li>
+  <li><%= @question.answer_B %></li>
+  <li><%= @question.answer_C %></li>
+  <li><%= @question.answer_D %></li>
+</ul>
+
+<p>
+  <strong>Correct Answer:</strong><%= @question.correct_answer %>
+</p>
+
+<p>
+  <strong>Answered:</strong><%= @question.answered %>
+</p>
+
+<p>
+  <strong>Chosen Answer:</strong><%= @question.chosen_answer %>
+</p>
+
+<p>
+  <strong>Created:</strong><%= @question.created_at %>
+</p>
+
+<p>
+  <strong>Updated:</strong><%= @question.updated_at %>
+</p>
+

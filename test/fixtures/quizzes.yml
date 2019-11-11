@@ -1,13 +1,6 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  title: MyString
+  id: 5
+  title: "Chemical Symbol Quiz"
   score: 1
-  num_questions: 1
-  user: one
-
-two:
-  title: MyString
-  score: 1
-  num_questions: 1
-  user: two
+  num_questions: 3
+  user_id: 1
