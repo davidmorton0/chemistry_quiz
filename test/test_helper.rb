@@ -10,5 +10,13 @@ class ActiveSupport::TestCase
 
   fixtures :all
   include ApplicationHelper
-
+  
+  def setup
+    @base_title = " | Chemistry Quiz"
+  end
+  
+  def is_logged_in?
+    !session[:user_id].nil?
+  end
+  
 end
