@@ -2,36 +2,21 @@
   <p>
     <strong><%= question_counter + 1 %>. <%= question.prompt %></strong>
   </p>
-  <%= form_with model: question do |f| %>
+  <%= link_to("", {}, name: question.id, class: "anchor") %>
+  <%= form_with model: question, method: "patch" do |f| %>
+    
     <% d = question.answered ? true: false %>
-    <div class="radio">
-      <%= radio_button_tag :answer, question.answer_A, question.answer_A == question.chosen_answer, disabled: d %>
-      <%= question.answer_A %>
-      <%= if question.answered && (question.answer_A == question.chosen_answer || question.answer_A == question.correct_answer)
-            question.answer_A == question.correct_answer ? '✔️' : '❌'
-          end %>
-    </div>
-    <div class="radio">
-      <%= radio_button_tag :answer, question.answer_B, question.answer_B == question.chosen_answer, disabled: d %>
-      <%= question.answer_B %>
-      <%= if question.answered && (question.answer_B == question.chosen_answer || question.answer_B == question.correct_answer)
-            question.answer_B == question.correct_answer ? '✔️' : '❌'
-          end %>
-    </div>
-    <div class="radio">
-      <%= radio_button_tag :answer, question.answer_C, question.answer_C == question.chosen_answer, disabled: d %>
-      <%= question.answer_C %>
-      <%= if question.answered && (question.answer_C == question.chosen_answer || question.answer_C == question.correct_answer)
-            question.answer_C == question.correct_answer ? '✔️' : '❌'
-          end %>
-    </div>
-    <div class="radio">
-      <%= radio_button_tag :answer, question.answer_D, question.answer_D == question.chosen_answer, disabled: d %>
-      <%= question.answer_D %>
-      <%= if question.answered && (question.answer_D == question.chosen_answer || question.answer_D == question.correct_answer)
-            question.answer_D == question.correct_answer ? '✔️' : '❌'
-          end %>
-    </div>
+    
+    <% question.answers.each do |answer| %>
+      <div class="radio">
+        <%= radio_button_tag :answer, answer.text, answer.text == question.chosen_answer, disabled: d %>
+        <%= answer.text %>
+        <%= if question.answered && (answer.text == question.chosen_answer || answer.text == question.correct_answer)
+              answer.text == question.correct_answer ? '✔️' : '❌'
+            end %>
+      </div>
+    <% end %>
+    
     <%= f.submit "Answer" %>
   <% end %>
 </div>
