@@ -1,8 +1,6 @@
 require 'test_helper'
 class ChemPagesControllerTest < ActionDispatch::IntegrationTest
   
-  setup
-  
   test "should get home" do
     get root_path
     assert_response :success

@@ -1,12 +1,16 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
+  include SessionsHelper
   
   test "should show user" do
-    get user_path(2)
+    @user = users[1]
+    post login_path, params: { session: { email:    @user.email,
+                                          password: 'password' } }
+    get user_path(@user)
     assert_response :success
-    assert_select "title", "#{users[1].name}#{@base_title}"
-    assert_match users[1].name, response.body
+    assert_select "title", "#{@user.name}#{@base_title}"
+    assert_match @user.name, response.body
   end
   
   test "should get new" do

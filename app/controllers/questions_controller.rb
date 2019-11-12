@@ -2,24 +2,24 @@ require 'chem_data.rb'
 
 class QuestionsController < ApplicationController
   
-  #admin use only
+  #admin use
   def index
     @questions = Question.all
   end
   
-  #admin use only
+  #admin use
   def show
     @question = Question.find(params[:id])
   end
   
-  #admin use only
+  # answers a question
   def update
     @question = Question.find(params[:id])
-    if params[:answer] && !@question.answered
-      @question.update(answered: true, chosen_answer: params[:answer])
-      if @question.chosen_answer == @question.correct_answer then Quiz.increment_counter(:score, @question.quiz) end
+    @question.update(answered: true, chosen_answer: params[:answer])
+    if @question.chosen_answer == @question.correct_answer then Quiz.increment_counter(:score, @question.quiz) end
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
     end
-    redirect_to Quiz.find(@question.quiz_id)
   end
   
   private

@@ -1,6 +1,6 @@
 require 'chem_data.rb'
 
-module QuesGen
+module QuestionGenerator
   ELEMENTS = 98
   ANSWERS = 4
   
@@ -28,14 +28,19 @@ module QuesGen
     
     question = Question.new(
       prompt: "What is the chemical symbol for #{ChemData::Element[e][:Name]}?",
-      answer_A: answers[0],
-      answer_B: answers[1],
-      answer_C: answers[2],
-      answer_D: answers[3],
       correct_answer: ChemData::Element[e][:Symbol],
       quiz: Quiz.find(quiz_id),
       answered: false
     )
     question.save
+    
+    (0..ANSWERS - 1).each do |a|
+      answer = Answer.new
+      answer.text = answers[a]
+      answer.question = question
+      answer.save
+    end
+    
+    return question
   end
 end

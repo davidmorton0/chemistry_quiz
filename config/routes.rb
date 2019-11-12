@@ -19,9 +19,9 @@ Rails.application.routes.draw do
                             #:update,        #post to update current user - not implemented
                             #:destroy       #deletes user - admin - not implemented
                           ]
-  resources :quizzes, only: [ #:index,      #not needed
-                            :new,           #makes new quiz - maybe change to create
-                            #:create,
+  resources :quizzes, only: [ :index,      #shows all questions - admin
+                            #:new,           
+                            :create,        #creates new quiz
                             :show,
                             #:edit,         #not needed
                             #:update,       #not needed       
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
                                 #:create,
                                 :show,
                                 #:edit,
-                                #:update,
+                                :update,    #answers a question
                                 #:destroy
                               ]
 end
