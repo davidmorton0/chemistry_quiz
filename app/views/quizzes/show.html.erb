@@ -1,7 +1,7 @@
 <% provide(:title, 'Quiz') %>
 <h1><%= @quiz.title %></h1>
 <div class="center">
-  <%= link_to "Start again", new_quiz_path, class: "btn btn-lg btn-primary" %>
+  <%= link_to "Start again", quizzes_path, method: "post", class: "btn btn-lg btn-primary" %>
 </div>
 <p>
   <strong>Quiz ID:</strong>

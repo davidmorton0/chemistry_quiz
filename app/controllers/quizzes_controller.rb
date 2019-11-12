@@ -1,28 +1,29 @@
-require 'ques_gen.rb'
-
 class QuizzesController < ApplicationController
-  include QuesGen
+  include QuestionGenerator
 
   def show
-    user = User.first
-    @quiz = Quiz.find_by(user_id: user)
-    #if !@quiz then new end
+    if logged_in?
+      user = current_user
+      @quiz = Quiz.find_by(user_id: user)
+      if !@quiz
+        @quiz = make_new_quiz(user.id)
+      end
+    else
+      flash[:danger] = 'Log in to do a quiz'
+      redirect_to login_path
+    end
   end
   
-  def new
-    user = User.first         #needs to select current user in final version
-
-    Quiz.find_by(user_id: user)&.destroy
-    @quiz = Quiz.new
-    @quiz.title = "Chemical Symbol Quiz"
-    @quiz.num_questions = 10
-    @quiz.user_id = user.id
-    @quiz.score = 0
-    @quiz.save
-    (1..@quiz.num_questions).each do
-      symbol_question(@quiz.id)
+  def create
+    if logged_in?
+      user = current_user
+      Quiz.find_by(user_id: user)&.destroy
+      make_new_quiz(user.id)
+      redirect_to quiz_path
+    else
+      flash[:danger] = 'Log in to do a quiz'
+      redirect_to login_path
     end
-    render 'show'
   end
   
 end

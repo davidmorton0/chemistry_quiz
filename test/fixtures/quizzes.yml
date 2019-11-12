@@ -2,5 +2,12 @@ one:
   id: 5
   title: "Chemical Symbol Quiz"
   score: 1
-  num_questions: 3
+  num_questions: 4
   user_id: 1
+  
+two:
+  id: 100
+  title: "Test Quiz"
+  score: 0
+  num_questions: 3
+  user_id: 100

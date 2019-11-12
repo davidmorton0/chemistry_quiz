@@ -1,4 +1,4 @@
-<% provide(:title, "Question") %>
+<% provide(:title, "Question #{@question.id}") %>
 <p>
   <strong>Question ID:</strong><%= @question.id %>
 </p>
@@ -16,10 +16,9 @@
 </p>
 
 <ul>
-  <li><%= @question.answer_A %></li>
-  <li><%= @question.answer_B %></li>
-  <li><%= @question.answer_C %></li>
-  <li><%= @question.answer_D %></li>
+  <% @question.answers.each do |answer| %>
+    <li><%= answer.text %></li>
+  <% end %>
 </ul>
 
 <p>
@@ -42,3 +41,4 @@
   <strong>Updated:</strong><%= @question.updated_at %>
 </p>
 
+<%= link_to "Back", questions_path %>
