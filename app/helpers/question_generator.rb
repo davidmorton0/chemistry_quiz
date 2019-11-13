@@ -4,10 +4,10 @@ module QuestionGenerator
   ELEMENTS = 98
   ANSWERS = 4
   
-  def symbol_question(quiz_id)
+  def symbol_question(quiz_id, question_index)
     
     #select element for question
-    e = rand(ELEMENTS - 1)
+    e = question_index
     possible_answers = [  ChemData::Element[e][:Symbol],    #correct answer
                           ChemData::Element[e][:Name][0],   #first letter of element
                           ChemData::Element[e][:Name][0,2], #first two letters of element

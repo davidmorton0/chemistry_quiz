@@ -2,12 +2,12 @@ one:
   id: 5
   title: "Chemical Symbol Quiz"
   score: 1
-  num_questions: 4
+  difficulty: 2
   user_id: 1
   
 two:
   id: 100
   title: "Test Quiz"
   score: 0
-  num_questions: 3
+  difficulty: 5
   user_id: 100

@@ -17,6 +17,11 @@
       </div>
     <% end %>
     
-    <%= f.submit "Answer" %>
+    <%= if d
+          f.submit "Answer", data: { disable_with: "Please wait..." }
+        else
+          f.submit "Answer"
+        end
+    %>
   <% end %>
 </div>
