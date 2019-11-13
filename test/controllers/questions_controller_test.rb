@@ -18,12 +18,13 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
   test "should answer a question incorrectly" do
     
     question = questions(:one)
-    patch question_path(question.id), params: { "id"=>"20",
-                    "answer"=>"J",
-                    "commit"=>"Answer",
-                    "controller" => "questions",
-                    "action" => "update"
-                    }, xhr: true
+    patch question_path(question.id), params: {
+                              "_method"=>"patch",
+                              "quiz"=>{question.id.to_s=>"J"},
+                              "commit"=>"Answer",
+                              "controller"=>"questions",
+                              "action"=>"update",
+                              "id"=>question.id.to_s}, xhr: true
     question.reload
     assert_equal question.answered, true
     assert_equal question.chosen_answer, "J"
@@ -34,12 +35,13 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
   test "should answer a question correctly" do
     
     question = questions(:four)
-    patch question_path(question.id), params: { "id"=>"22",
-                    "answer"=>"H",
-                    "commit"=>"Answer",
-                    "controller" => "questions",
-                    "action" => "update"
-                    }, xhr: true
+    patch question_path(question.id), params: {
+                              "_method"=>"patch",
+                              "quiz"=>{question.id.to_s=>"H"},
+                              "commit"=>"Answer",
+                              "controller"=>"questions",
+                              "action"=>"update",
+                              "id"=>question.id.to_s}, xhr: true
     question.reload
     assert_equal question.answered, true
     assert_equal question.chosen_answer, "H"

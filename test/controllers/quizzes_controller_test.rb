@@ -9,13 +9,14 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
                                           password: 'password' } }
     assert is_logged_in?
     assert_no_difference 'Quiz.count' do
-      get quiz_url
-      assert_response :success
+      get quizzes_path
+      assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
+      follow_redirect!
       assert_select "title", "Quiz#{@base_title}"
       assert_select "h1", "Chemical Symbol Quiz"
       assert_match "1. What is the chemical symbol for", response.body
       assert_select "input[type=?]", 'radio', count: 16
-      assert_select "input[type=?]", 'submit', count: 5
+      assert_select "button[type=?]", 'submit', count: 5
       assert_equal Quiz.first.id, 5
       assert_equal Quiz.first.difficulty, 2
       assert_equal Quiz.first.score, 1
@@ -33,13 +34,13 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     assert is_logged_in?
     assert_no_difference 'Quiz.count' do
       post quizzes_url
-      assert_redirected_to quiz_path
+      assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
       follow_redirect!
       assert_select "title", "Quiz#{@base_title}"
       assert_select "h1", "Chemical Symbol Quiz"
       assert_match "1. What is the chemical symbol for", response.body
       assert_select "input[type=?]", 'radio', count: 40
-      assert_select "input[type=?]", 'submit', count: 11
+      assert_select "button[type=?]", 'submit', count: 11
       assert_not_equal 5, Quiz.find_by(user_id: @user.id).id
     end
   end
@@ -52,13 +53,14 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     assert is_logged_in?
     
     assert_difference 'Quiz.count', 1 do
-      get quiz_url
-      assert_response :success
+      get quizzes_path
+      assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
+      follow_redirect!
       assert_select "title", "Quiz#{@base_title}"
       assert_select "h1", "Chemical Symbol Quiz"
       assert_match "1. What is the chemical symbol for", response.body
       assert_select "input[type=?]", 'radio', count: 40
-      assert_select "input[type=?]", 'submit', count: 11
+      assert_select "button[type=?]", 'submit', count: 11
     end
   end
 
