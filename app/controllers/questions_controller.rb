@@ -2,6 +2,12 @@ require 'chem_data.rb'
 
 class QuestionsController < ApplicationController
   
+  def answer_question(id, answer)
+    question = Question.find(id)
+    question.update(answered: true, chosen_answer: answer)
+    if question.chosen_answer == question.correct_answer then Quiz.increment_counter(:score, question.quiz) end
+  end
+  
   #admin use
   def index
     @questions = Question.all
@@ -14,9 +20,7 @@ class QuestionsController < ApplicationController
   
   # answers a question
   def update
-    @question = Question.find(params[:id])
-    @question.update(answered: true, chosen_answer: params[:answer])
-    if @question.chosen_answer == @question.correct_answer then Quiz.increment_counter(:score, @question.quiz) end
+    answer_question(params[:id], params[:quiz] ? params[:quiz][params[:id]] : nil)
     respond_to do |format|
       format.js {render inline: "location.reload();" }
     end
@@ -24,6 +28,6 @@ class QuestionsController < ApplicationController
   
   private
     def question_params
-      params.require(:question).permit(:prompt, :answer_A, :answer_B, :answer_C, :answer_D, :correct_answer, :quiz, :answered, :chosen_answer)
+      params.require(:question).permit(:prompt, :correct_answer, :quiz, :answered, :chosen_answer)
     end
 end

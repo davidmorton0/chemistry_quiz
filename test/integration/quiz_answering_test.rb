@@ -9,7 +9,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
                                           password: 'password' } }
     assert is_logged_in?
     post quizzes_path
-    assert_redirected_to quiz_path
+    assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
     follow_redirect!
     get quiz_path
   end
@@ -26,16 +26,21 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.first
-    patch question_path(@question.id), params: { "id"=>@question.id,
-                    "answer"=>@question.correct_answer,
-                    "commit"=>"Answer",
-                    "controller" => "questions",
-                    "action" => "update"
-                    }, xhr: true
+    patch question_path(@question.id), params: {
+                              "_method"=>"patch",
+                              "quiz"=>{@question.id.to_s=>@question.correct_answer},
+                              "commit"=>"Answer",
+                              "controller"=>"questions",
+                              "action"=>"update",
+                              "id"=>@question.id}, xhr: true
     assert_equal "location.reload();", response.body
-    get quiz_path
+    get quizzes_path
+    follow_redirect!
     assert_select "div[class=radio]", /✔️/, count: 1
     assert_no_match '❌', response.body
+    assert_difference '@quiz.score' do
+      @quiz.reload
+    end
   end
   
   test "should answer question incorrectly" do
@@ -44,16 +49,21 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.second
     @answer = @question.answers.first.text == @question.correct_answer ? @question.answers.second.text : @question.answers.first.text
-    patch question_path(@question.id), params: { "id"=>@question.id,
-                    "answer"=>@answer,
-                    "commit"=>"Answer",
-                    "controller" => "questions",
-                    "action" => "update"
-                    }, xhr: true
+    patch question_path(@question.id), params: {
+                              "_method"=>"patch",
+                              "quiz"=>{@question.id.to_s=>@answer},
+                              "commit"=>"Answer",
+                              "controller"=>"questions",
+                              "action"=>"update",
+                              "id"=>@question.id}, xhr: true
     assert_equal "location.reload();", response.body
-    get quiz_path
+    get quizzes_path
+    follow_redirect!
     assert_select "div[class=radio]", /✔️/, count: 1
     assert_select "div[class=radio]", /❌/, count: 1
+    assert_no_difference '@quiz.score' do
+      @quiz.reload
+    end
   end
   
   test "should show answer when no answer given" do
@@ -61,15 +71,20 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.third
-    patch question_path(@question.id), params: { "id"=>@question.id,
-                    "commit"=>"Answer",
-                    "controller" => "questions",
-                    "action" => "update"
-                    }, xhr: true
+    patch question_path(@question.id), params: {
+                              "_method"=>"patch",
+                              "commit"=>"Answer",
+                              "controller"=>"questions",
+                              "action"=>"update",
+                              "id"=>@question.id}, xhr: true
     assert_equal "location.reload();", response.body
-    get quiz_path
+    get quizzes_path
+    follow_redirect!
     assert_select "div[class=radio]", /✔️/, count: 1
     assert_select "div[class=radio]", {count: 0, text:/❌/}
+    assert_no_difference '@quiz.score' do
+      @quiz.reload
+    end
   end
   
   test "should show results at end of test" do
@@ -77,13 +92,36 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @quiz.questions.each do |question|
-      patch question_path(question.id), params: { "id"=>question.id,
-                      "commit"=>"Answer",
-                      "controller" => "questions",
-                      "action" => "update"
-                      }, xhr: true
-      get quiz_path
+      patch question_path(question.id), params: {
+                              "_method"=>"patch",
+                              "commit"=>"Answer",
+                              "controller"=>"questions",
+                              "action"=>"update",
+                              "id"=>question.id}, xhr: true
+      get quizzes_path
+      follow_redirect!
     end
+    assert_select "div[class=radio]", /✔️/, count: 10
+    assert_match "You scored: #{@quiz.score}/#{@quiz.questions.count}", response.body
+  end
+  
+  test "should answer all unanswered questions" do
+    setup
+    assert_select "h1", "Chemical Symbol Quiz"
+    @quiz = Quiz.find_by user_id: @user.id
+    patch quiz_path(@quiz.id), params: {
+                              "_method"=>"patch",
+                              "quiz"=>{
+                                @quiz.questions.first.id.to_s => @quiz.questions.first.answers.first.text,
+                                @quiz.questions.second.id.to_s => @quiz.questions.second.answers.first.text,
+                                @quiz.questions.third.id.to_s => @quiz.questions.third.answers.first.text
+                              },
+                              "commit"=>"Answer All",
+                              "action"=>"update",
+                              "id"=>@quiz.id }, xhr: true
+    get quizzes_path
+    follow_redirect!
+    @quiz.reload
     assert_select "div[class=radio]", /✔️/, count: 10
     assert_match "You scored: #{@quiz.score}/#{@quiz.questions.count}", response.body
   end

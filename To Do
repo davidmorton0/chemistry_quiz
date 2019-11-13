@@ -1,4 +1,3 @@
-- answer all questions in quiz
 - quiz score record
 - other types of quizzes
 - formatting quiz page
@@ -13,3 +12,7 @@ done
 - Help/contact/about pages
 - make all questions distinct - question generator
 - quiz answering test
+- answer all questions in quiz
+- remove answer_A columns
+- score checks
+- button disable/disappear in quiz

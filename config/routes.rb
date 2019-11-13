@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get '/contact', to: 'chem_pages#contact'  #contact page - static
   get  '/signup',  to: 'users#new'          #sign up form for new users - static
   post '/signup',  to: 'users#create'       #posts to users to create new user then redirects to user page
-  get '/quiz', to: 'quizzes#show'           #goes to current quiz for user
-  post '/quiz', to: 'quizzes#new'           #creates a new quiz then redirects to it
+  #get '/doquiz', to: 'quizzes#show'         #goes to current quiz for user
+  #post '/quiz', to: 'quizzes#new'           #creates a new quiz then redirects to it
   get    '/login',   to: 'sessions#new'     #login page
   post   '/login',   to: 'sessions#create'  #logs in
   delete '/logout',  to: 'sessions#destroy' #logs out
@@ -19,15 +19,15 @@ Rails.application.routes.draw do
                             #:update,        #post to update current user - not implemented
                             #:destroy       #deletes user - admin - not implemented
                           ]
-  resources :quizzes, only: [ :index,      #shows all questions - admin
+  resources :quizzes, only: [ :index,       #shows all quizzes
                             #:new,           
                             :create,        #creates new quiz
-                            :show,
+                            :show,          #shows quiz
                             #:edit,         #not needed
-                            #:update,       #not needed       
+                              :update,      #answers all questions on a quiz
                             #:destroy       #not needed
                             ]
-  resources :questions, only: [ :index,
+  resources :questions, only: [ :index,   #shows all questions - admin
                                 #:new,
                                 #:create,
                                 :show,
