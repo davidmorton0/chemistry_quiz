@@ -14,8 +14,8 @@
 </p>
 
 <p>
-  <strong>Number of Questions:</strong>
-  <%= @quiz.num_questions %>
+  <strong>Difficulty:</strong>
+  <%= @quiz.difficulty %>
 </p>
 
 <p>
@@ -23,9 +23,17 @@
   <%= User.find(@quiz.user_id).name %>
 </p>
 
+<%  unanswered = @quiz.questions.select { |question| question.answered == false } %>
+<%  number_questions = @quiz.questions.count %>
+
+<p><strong>
+  <%= "You scored: #{@quiz.score}/#{number_questions}" if unanswered.length == 0 %>
+</strong></p>
+
 <% question_number = 1 %>
 
 <%= form_for(@quiz, url: quiz_path, method: "patch") do |form| %>
+
   <p>
     <%= form.submit "Check All Answers" %>
   </p>
