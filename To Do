@@ -1,10 +1,15 @@
-- remove num_questions from quiz model
-- make all questions distinct - question generator
-- quiz answering test
-- quiz results page
+- answer all questions in quiz
 - quiz score record
-- quiz difficulty
 - other types of quizzes
 - formatting quiz page
 - user sign up emails
-- Help/contact pages
+
+
+done
+
+- remove num_questions from quiz model
+- quiz difficulty
+- quiz results
+- Help/contact/about pages
+- make all questions distinct - question generator
+- quiz answering test

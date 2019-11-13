@@ -5,7 +5,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   include QuizzesHelper
   
   test "gets question data" do
-    question = symbol_question(100)
+    question = symbol_question(100, rand(98))
     assert_match "What is the chemical symbol for", question.prompt
     correct_count = 0
     question.answers.each do |answer|

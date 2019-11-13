@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_11_142332) do
+ActiveRecord::Schema.define(version: 2019_11_12_223538) do
 
   create_table "answers", force: :cascade do |t|
     t.string "text"
@@ -38,10 +38,10 @@ ActiveRecord::Schema.define(version: 2019_11_11_142332) do
   create_table "quizzes", force: :cascade do |t|
     t.string "title"
     t.integer "score"
-    t.integer "num_questions"
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "difficulty"
     t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
 

@@ -5,8 +5,8 @@ class QuizTest < ActiveSupport::TestCase
   def setup
     @quiz = Quiz.new( title: "Test Quiz",
                       score: 0,
-                      num_questions: 10,
-                      user_id: 1 )
+                      user_id: 1,
+                      difficulty: 3)
   end
   
   test "should be valid" do
@@ -27,9 +27,14 @@ class QuizTest < ActiveSupport::TestCase
     @quiz.score = -1
     assert_not @quiz.valid?
   end
+
+  test "difficulty must be greater than 0" do
+    @quiz.difficulty = 0
+    assert_not @quiz.valid?
+  end
   
-  test "must have at least one question" do
-    @quiz.num_questions = 0
+  test "difficulty must be less than or equal to 10" do
+    @quiz.difficulty = 11
     assert_not @quiz.valid?
   end
 

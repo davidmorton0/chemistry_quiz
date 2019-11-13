@@ -1,102 +1,90 @@
 require 'test_helper'
 
 class SiteLayoutTest < ActionDispatch::IntegrationTest
+  
+  def setup
+    @user = users(:mark)
+    get login_path
+    post login_path, params: { session: { email:    @user.email,
+                                          password: 'password' } }
+    assert is_logged_in?
+    post quizzes_path
+    assert_redirected_to quiz_path
+    follow_redirect!
+    get quiz_path
+  end
 
-=begin
-
-test "should show results at end of test" do
-    post quiz_path,
-      params: { quiz: {"question_number"=>"10", "page"=>"answer", "score"=>"2"} }
-    assert_response :success
+  test "should show quiz start page" do
+    setup
+    assert_select "h1", "Chemical Symbol Quiz"
     assert_no_match '✔️', response.body
     assert_no_match '❌', response.body
-    assert_select "input[type=?]", 'radio', count: 0
-    assert_match 'You scored 2 out of 10', response.body
   end
-=begin
   
-
-  test "should post incorrect answer to question" do
-    post quiz_path,
-    params: {
-        "answer"=>"C",
-        "quiz" => {
-          "question_number"=>"1",
-          "page"=>"question",
-          "score"=>"0",
-          "question"=>"What is the chemical symbol for Hydrogen?",
-          "answer_A"=>"C",
-          "answer_B"=>"H",
-          "answer_C"=>"Hy",
-          "answer_D"=>"Hn",
-          "correct_answer"=>"H"
-        }
-      }
-    assert_response :success
-    assert_select "title", "Quiz#{@base_title}"
+  test "should answer question correctly" do
+    setup
     assert_select "h1", "Chemical Symbol Quiz"
-    assert_select "p", "1. What is the chemical symbol for Hydrogen?"
-    assert_match /H\s*✔️/, response.body
-    assert_match /C\s*❌/, response.body
-    assert_select "input[type=?]", 'radio', count: 4
-    assert_select "input[type=?]", 'submit', count: 1
-    assert_select "input[value=?]", '0', count: 1
-    #assert_select "input checked", count: 1
-  end
-  
-  test "should post correct answer to question" do
-    post quiz_path,
-      params: {
-        "answer"=>"Tb",
-        "quiz" => {
-          "question_number"=>"2",
-          "page"=>"question",
-          "score"=>"3",
-          "question"=>"What is the chemical symbol for Terbium?",
-          "answer_A"=>"T",
-          "answer_B"=>"U",
-          "answer_C"=>"Tb",
-          "answer_D"=>"Ti",
-          "correct_answer"=>"Tb"
-        }
-      }
-    assert_response :success
-    assert_match /Tb\s*✔️/, response.body
+    @quiz = Quiz.find_by user_id: @user.id
+    @question = @quiz.questions.first
+    patch question_path(@question.id), params: { "id"=>@question.id,
+                    "answer"=>@question.correct_answer,
+                    "commit"=>"Answer",
+                    "controller" => "questions",
+                    "action" => "update"
+                    }, xhr: true
+    assert_equal "location.reload();", response.body
+    get quiz_path
+    assert_select "div[class=radio]", /✔️/, count: 1
     assert_no_match '❌', response.body
-    assert_select "input[value=?]", '2', count: 1
-    assert_select "input[value=?]", '4', count: 1
   end
   
-  test "should show correct answer if no answer chosen" do
-    post quiz_path,
-    params: {
-        "quiz" => {
-          "question_number"=>"1",
-          "page"=>"question",
-          "score"=>"0",
-          "question"=>"What is the chemical symbol for Hydrogen?",
-          "answer_A"=>"C",
-          "answer_B"=>"H",
-          "answer_C"=>"Hy",
-          "answer_D"=>"Hn",
-          "correct_answer"=>"H"
-        }
-      }
-    assert_response :success
-    assert_match /H\s*✔️/, response.body
-    assert_no_match '❌', response.body
-    assert_select "input[value=?]", '1', count: 1
-    assert_select "input[value=?]", '0', count: 1
+  test "should answer question incorrectly" do
+    setup
+    assert_select "h1", "Chemical Symbol Quiz"
+    @quiz = Quiz.find_by user_id: @user.id
+    @question = @quiz.questions.second
+    @answer = @question.answers.first.text == @question.correct_answer ? @question.answers.second.text : @question.answers.first.text
+    patch question_path(@question.id), params: { "id"=>@question.id,
+                    "answer"=>@answer,
+                    "commit"=>"Answer",
+                    "controller" => "questions",
+                    "action" => "update"
+                    }, xhr: true
+    assert_equal "location.reload();", response.body
+    get quiz_path
+    assert_select "div[class=radio]", /✔️/, count: 1
+    assert_select "div[class=radio]", /❌/, count: 1
   end
   
-  test "should show next question after answer page" do
-    post quiz_path,
-      params: { quiz: {"question_number"=>"3", "page"=>"answer", "score"=>"2"} }
-      assert_response :success
-      assert_match 'Question 4', response.body
-      assert_select "input[type=?]", 'radio', count: 4
+  test "should show answer when no answer given" do
+    setup
+    assert_select "h1", "Chemical Symbol Quiz"
+    @quiz = Quiz.find_by user_id: @user.id
+    @question = @quiz.questions.third
+    patch question_path(@question.id), params: { "id"=>@question.id,
+                    "commit"=>"Answer",
+                    "controller" => "questions",
+                    "action" => "update"
+                    }, xhr: true
+    assert_equal "location.reload();", response.body
+    get quiz_path
+    assert_select "div[class=radio]", /✔️/, count: 1
+    assert_select "div[class=radio]", {count: 0, text:/❌/}
   end
   
-=end
-
+  test "should show results at end of test" do
+    setup
+    assert_select "h1", "Chemical Symbol Quiz"
+    @quiz = Quiz.find_by user_id: @user.id
+    @quiz.questions.each do |question|
+      patch question_path(question.id), params: { "id"=>question.id,
+                      "commit"=>"Answer",
+                      "controller" => "questions",
+                      "action" => "update"
+                      }, xhr: true
+      get quiz_path
+    end
+    assert_select "div[class=radio]", /✔️/, count: 10
+    assert_match "You scored: #{@quiz.score}/#{@quiz.questions.count}", response.body
+  end
 end

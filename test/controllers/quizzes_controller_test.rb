@@ -17,7 +17,7 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
       assert_select "input[type=?]", 'radio', count: 16
       assert_select "input[type=?]", 'submit', count: 5
       assert_equal Quiz.first.id, 5
-      assert_equal Quiz.first.num_questions, 4
+      assert_equal Quiz.first.difficulty, 2
       assert_equal Quiz.first.score, 1
       assert_equal questions.first.id, 20
       assert_equal questions.second.id, 21
