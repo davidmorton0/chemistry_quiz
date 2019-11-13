@@ -30,14 +30,25 @@
   <%= "You scored: #{@quiz.score}/#{number_questions}" if unanswered.length == 0 %>
 </strong></p>
 
-<% question_number = 1 %>
-
-<%= form_for(@quiz, url: quiz_path, method: "patch") do |form| %>
-
-  <p>
-    <%= form.submit "Check All Answers" %>
-  </p>
-
+<%= form_with model: @quiz, method: "patch" do |f| %>
+  <% @quiz.questions.each_with_index do |question, index| %>
+    <div class="question">
+      <p>
+        <strong><%= index + 1 %>. <%= question.prompt %></strong>
+      </p>
+    
+      <% question.answers.each do |answer| %>
+        <div class="radio">
+          <%= f.radio_button question.id, answer.text, options = {checked: answer.text == question.chosen_answer, disabled: question.answered}  %>
+          <%= answer.text %>
+          <%= if question.answered && (answer.text == question.chosen_answer || answer.text == question.correct_answer)
+                answer.text == question.correct_answer ? '✔️' : '❌'
+              end %>
+        </div>
+      <% end %>
+      
+      <%= f.button "Answer", formaction: question_path(question.id), method: "patch", disabled: question.answered %>
+    </div>
+  <% end %>
+  <%= f.button "Answer All", formaction: quiz_path(@quiz.id), method: "patch" %>
 <% end %>
-
-<%= render @quiz.questions %>

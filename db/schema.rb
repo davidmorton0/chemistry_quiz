@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_12_223538) do
+ActiveRecord::Schema.define(version: 2019_11_13_214618) do
 
   create_table "answers", force: :cascade do |t|
     t.string "text"
@@ -22,10 +22,6 @@ ActiveRecord::Schema.define(version: 2019_11_12_223538) do
 
   create_table "questions", force: :cascade do |t|
     t.string "prompt"
-    t.string "answer_A"
-    t.string "answer_B"
-    t.string "answer_C"
-    t.string "answer_D"
     t.string "correct_answer"
     t.integer "quiz_id", null: false
     t.datetime "created_at", precision: 6, null: false

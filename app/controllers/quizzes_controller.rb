@@ -1,28 +1,44 @@
 class QuizzesController < ApplicationController
   include QuestionGenerator
-
-  def show
+  
+  def index
     if logged_in?
       user = current_user
       @quiz = Quiz.find_by(user_id: user)
       if !@quiz
         @quiz = make_new_quiz(user.id)
       end
+      redirect_to quiz_path(@quiz.id)
     else
       flash[:danger] = 'Log in to do a quiz'
       redirect_to login_path
     end
   end
   
+  def show
+    @quiz = Quiz.find(params[:id])
+  end
+  
   def create
     if logged_in?
       user = current_user
       Quiz.find_by(user_id: user)&.destroy
-      make_new_quiz(user.id)
-      redirect_to quiz_path
+      @quiz = make_new_quiz(user.id)
+      redirect_to quiz_path(@quiz.id)
     else
       flash[:danger] = 'Log in to do a quiz'
       redirect_to login_path
+    end
+  end
+  
+  def update
+    @quiz = Quiz.find(params[:id])
+    @quiz.questions.each do |question|
+      question.update(answered: true, chosen_answer: params[:quiz] ? params[:quiz][question.id.to_s] : nil)
+      Quiz.increment_counter(:score, question.quiz) if question.chosen_answer == question.correct_answer
+    end
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
     end
   end
   
