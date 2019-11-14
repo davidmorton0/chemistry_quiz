@@ -26,13 +26,14 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.first
-    patch question_path(@question.id), params: {
+    patch quiz_path(@quiz.id), params: {
                               "_method"=>"patch",
+                              "submit"=>@question.id,
                               "quiz"=>{@question.id.to_s=>@question.correct_answer},
                               "commit"=>"Answer",
                               "controller"=>"questions",
                               "action"=>"update",
-                              "id"=>@question.id}, xhr: true
+                              "id"=>@quiz.id}, xhr: true
     assert_equal "location.reload();", response.body
     get quizzes_path
     follow_redirect!
@@ -49,13 +50,14 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.second
     @answer = @question.answers.first.text == @question.correct_answer ? @question.answers.second.text : @question.answers.first.text
-    patch question_path(@question.id), params: {
+    patch quiz_path(@quiz.id), params: {
                               "_method"=>"patch",
+                              "submit"=>@question.id,
                               "quiz"=>{@question.id.to_s=>@answer},
                               "commit"=>"Answer",
                               "controller"=>"questions",
                               "action"=>"update",
-                              "id"=>@question.id}, xhr: true
+                              "id"=>@quiz.id}, xhr: true
     assert_equal "location.reload();", response.body
     get quizzes_path
     follow_redirect!
@@ -71,12 +73,13 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.third
-    patch question_path(@question.id), params: {
+    patch quiz_path(@quiz.id), params: {
                               "_method"=>"patch",
+                              "submit"=>@question.id,
                               "commit"=>"Answer",
                               "controller"=>"questions",
                               "action"=>"update",
-                              "id"=>@question.id}, xhr: true
+                              "id"=>@quiz.id}, xhr: true
     assert_equal "location.reload();", response.body
     get quizzes_path
     follow_redirect!
@@ -92,12 +95,13 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @quiz.questions.each do |question|
-      patch question_path(question.id), params: {
+      patch quiz_path(@quiz.id), params: {
                               "_method"=>"patch",
+                              "submit"=>question.id,
                               "commit"=>"Answer",
                               "controller"=>"questions",
                               "action"=>"update",
-                              "id"=>question.id}, xhr: true
+                              "id"=>@quiz.id}, xhr: true
       get quizzes_path
       follow_redirect!
     end
@@ -111,6 +115,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     @quiz = Quiz.find_by user_id: @user.id
     patch quiz_path(@quiz.id), params: {
                               "_method"=>"patch",
+                              "submit"=>"all",
                               "quiz"=>{
                                 @quiz.questions.first.id.to_s => @quiz.questions.first.answers.first.text,
                                 @quiz.questions.second.id.to_s => @quiz.questions.second.answers.first.text,
