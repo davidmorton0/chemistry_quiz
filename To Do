@@ -1,8 +1,11 @@
-- quiz score record
 - other types of quizzes
 - formatting quiz page
 - user sign up emails
-
+- quiz generator
+- tidy up code
+- tests for score
+- fastest score
+- new quiz on resume if all answered
 
 done
 
@@ -16,3 +19,5 @@ done
 - remove answer_A columns
 - score checks
 - button disable/disappear in quiz
+- quiz score record
+- high score

@@ -1,0 +1,11 @@
+one:
+  id: 1
+  name: "Chemical Symbol Quiz"
+  num_questions: 10
+  difficulty: 3
+  
+two:
+  id: 2
+  name: "Chemical Element Quiz"
+  num_questions: 10
+  difficulty: 3
