@@ -24,7 +24,7 @@ Rails.application.routes.draw do
                             :create,        #creates new quiz
                             :show,          #shows quiz
                             #:edit,         #not needed
-                              :update,      #answers all questions on a quiz
+                              :update,      #answers questions on a quiz
                             #:destroy       #not needed
                             ]
   resources :questions, only: [ :index,   #shows all questions - admin
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
                                 #:create,
                                 :show,
                                 #:edit,
-                                :update,    #answers a question
+                                #:update,
                                 #:destroy
                               ]
 end
