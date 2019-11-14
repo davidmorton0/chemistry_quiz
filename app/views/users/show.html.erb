@@ -1,6 +1,6 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="col-md-4">
+  <aside class="col-md-2">
     <section class="user_info">
       <h1>
         <%= gravatar_for @user %>
@@ -8,4 +8,24 @@
       </h1>
     </section>
   </aside>
+
+  <div class="col-md-10">
+    <table class="scoretable">
+      <tr>
+        <th>Quiz</th>
+        <th>Difficulty</th>
+        <th>High Score</th>
+      </tr>
+  
+      <% @user.scores.each do |score| %>
+        <tr>
+          <td><%= score.quiz_type.name %></td>
+          <td><%= score.quiz_type.difficulty %></td>
+          <td><%= "#{score.score} / #{score.quiz_type.num_questions}" %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
 </div>
+
