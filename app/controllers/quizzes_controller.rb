@@ -50,7 +50,7 @@ class QuizzesController < ApplicationController
     end
     
     respond_to do |format|
-      format.js {render inline: "location.reload();" }
+      format.js {render inline: "window.location.reload(true);" }
     end
   end
   
