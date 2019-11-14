@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_13_214618) do
+ActiveRecord::Schema.define(version: 2019_11_14_154829) do
 
   create_table "answers", force: :cascade do |t|
     t.string "text"
@@ -31,6 +31,14 @@ ActiveRecord::Schema.define(version: 2019_11_13_214618) do
     t.index ["quiz_id"], name: "index_questions_on_quiz_id"
   end
 
+  create_table "quiz_types", force: :cascade do |t|
+    t.string "name"
+    t.integer "num_questions"
+    t.integer "difficulty"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "quizzes", force: :cascade do |t|
     t.string "title"
     t.integer "score"
@@ -38,7 +46,19 @@ ActiveRecord::Schema.define(version: 2019_11_13_214618) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "difficulty"
+    t.integer "quiz_type_id"
+    t.index ["quiz_type_id"], name: "index_quizzes_on_quiz_type_id"
     t.index ["user_id"], name: "index_quizzes_on_user_id"
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "quiz_type_id", null: false
+    t.integer "score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quiz_type_id"], name: "index_scores_on_quiz_type_id"
+    t.index ["user_id"], name: "index_scores_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,4 +73,6 @@ ActiveRecord::Schema.define(version: 2019_11_13_214618) do
   add_foreign_key "answers", "questions"
   add_foreign_key "questions", "quizzes"
   add_foreign_key "quizzes", "users"
+  add_foreign_key "scores", "quiz_types"
+  add_foreign_key "scores", "users"
 end

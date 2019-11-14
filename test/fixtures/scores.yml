@@ -1,0 +1,9 @@
+one:
+  user_id: 1
+  quiz_type_id: 1
+  score: 4
+
+two:
+  user_id: 1 
+  quiz_type_id: 2
+  score: 7

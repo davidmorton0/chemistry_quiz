@@ -27,14 +27,14 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   
   
   test "makes 10 question test" do
-    quiz = make_new_quiz(2)
+    quiz = make_new_quiz(1, 2)
     assert_equal quiz.questions.count, 10
     assert_equal quiz.user_id, 2
     assert_equal quiz.score, 0
   end
   
   test "all questions different with 4 answers" do
-    quiz = make_new_quiz(2)
+    quiz = make_new_quiz(1, 2)
     quiz.questions.each do |question|
       assert_equal question.answers.count, 4
       question_count = 0

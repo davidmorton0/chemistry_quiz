@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :scores, :dependent => :destroy
+  has_one :quiz
   before_save { email.downcase! }
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
