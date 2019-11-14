@@ -1,6 +1,13 @@
 class QuizzesController < ApplicationController
   include QuestionGenerator
   
+  def answer_question(question, answer)
+    if !question.answered
+      question.update(answered: true, chosen_answer: answer)
+      Quiz.increment_counter(:score, question.quiz) if question.chosen_answer == question.correct_answer
+    end
+  end
+  
   def index
     if logged_in?
       user = current_user
@@ -32,11 +39,16 @@ class QuizzesController < ApplicationController
   end
   
   def update
-    @quiz = Quiz.find(params[:id])
-    @quiz.questions.each do |question|
-      question.update(answered: true, chosen_answer: params[:quiz] ? params[:quiz][question.id.to_s] : nil)
-      Quiz.increment_counter(:score, question.quiz) if question.chosen_answer == question.correct_answer
+    if params[:submit] == "all"
+      @quiz = Quiz.find(params[:id])
+      @quiz.questions.each do |question|
+        answer_question(question, params[:quiz] ? params[:quiz][question.id.to_s] : nil)
+      end
+    else
+      @question = Question.find(params[:submit])
+      answer_question(@question, params[:quiz] ? params[:quiz][@question.id.to_s] : nil)
     end
+    
     respond_to do |format|
       format.js {render inline: "location.reload();" }
     end
