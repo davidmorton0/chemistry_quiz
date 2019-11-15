@@ -1,34 +1,29 @@
 <% provide(:title, 'Quiz') %>
+
 <div id="container">
-  <div class="row">
-    
-    <div class="col-sm-4" id="score">   
-      <p class="score">
-        <strong>
-          <%= @quiz.questions.select { |question| question.answered == false }
-            .length == 0 ? "You scored: #{@quiz.score}/#{@quiz.questions.count}" : "Current Score: #{@quiz.score}" %>
-        </strong>
-      </p>
-    </div>
-    
-    <div class="col-sm-4">
-      <h1><%= @quiz_type.name %></h1>
-    </div>
-    
-    <div class="col-sm-4" id="startagain">
+  <div class="inner">
+    <h1><%= @quiz_type.name %></h1>
+    <%  unanswered = @quiz.questions.select { |question| question.answered == false } %>
+    <%  number_questions = @quiz.questions.count %>
+      
+    <p class="score">
+      <strong>
+        <%= unanswered.length == 0 ? "You scored: #{@quiz.score}/#{number_questions}" : "Current Score: #{@quiz.score}" %>
+      </strong>
+    </p>
+  
+    <div id="startagain">
       <%= link_to "Start again", quizzes_path, method: "post", class: "btn btn-lg btn-primary" %>
     </div>
-    
   </div>
   
-  <div id="row">
-    
+  <div id="inner">
     <%= form_with model: @quiz, method: "patch", html: {class: "question"} do |f| %>
-    <div class="grid-container">  
       <% @quiz.questions.each_with_index do |question, index| %>
-      
-        <div class="grid-item" id="question">
-          <p><strong><%= index + 1 %>. <%= question.prompt %></strong></p>
+        <div id="question">
+          <p>
+            <strong><%= index + 1 %>. <%= question.prompt %></strong>
+          </p>
             
           <% question.answers.each do |answer| %>
             <div class="radio">
@@ -42,13 +37,8 @@
           <%= f.button "Answer", disabled: question.answered, name: "submit", value: question.id %>
         </div>
       <% end %>
-    </div>
-    
-    <div id="row">
-      <div class="col-sm-12" id="bottom">
-        <%= f.button "Answer All", name: "submit", value: "all", class: "answerall" %>
-        <% end %>      
-      </div>
-    </div>
+      <br>
+      <%= f.button "Answer All", name: "submit", value: "all" %>
+    <% end %>
   </div>
 </div>
