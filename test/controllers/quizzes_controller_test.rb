@@ -12,7 +12,7 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
       get quizzes_path
       assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
       follow_redirect!
-      assert_select "title", "Quiz#{@base_title}"
+      assert_template "show"
       assert_select "h1", "Chemical Symbol Quiz"
       assert_match "1. What is the chemical symbol for", response.body
       assert_select "input[type=?]", 'radio', count: 16
@@ -36,7 +36,7 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
       post quizzes_url
       assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
       follow_redirect!
-      assert_select "title", "Quiz#{@base_title}"
+      assert_template "show"
       assert_select "h1", "Chemical Symbol Quiz"
       assert_match "1. What is the chemical symbol for", response.body
       assert_select "input[type=?]", 'radio', count: 40
@@ -56,7 +56,7 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
       get quizzes_path
       assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
       follow_redirect!
-      assert_select "title", "Quiz#{@base_title}"
+      assert_template "show"
       assert_select "h1", "Chemical Symbol Quiz"
       assert_match "1. What is the chemical symbol for", response.body
       assert_select "input[type=?]", 'radio', count: 40
