@@ -11,13 +11,13 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'     #login page
   post   '/login',   to: 'sessions#create'  #logs in
   delete '/logout',  to: 'sessions#destroy' #logs out
-  resources :users, only: [ #:index,         #index page of all users - admin - not implemented
+  resources :users, only: [ :index,         #index page of all users - admin
                             #:new,           #uses get signup instead
                             :create,        #uses post signup instead
                             :show,          #shows a user - needs change to show current user only
-                            #:edit,          #form to edit current user - not implemented
-                            #:update,        #post to update current user - not implemented
-                            #:destroy       #deletes user - admin - not implemented
+                            :edit,          #form to edit current user
+                            :update,        #post to update current user
+                            :destroy        #deletes user - admin
                           ]
   resources :quizzes, only: [ :index,       #shows all quizzes
                             #:new,           

@@ -1,0 +1,8 @@
+<div class="grid-item" id="question">
+  <p><strong><%= index + 1 %>. <%= question.prompt %></strong></p>
+    
+  <% question.answers.each do |answer| %>
+    <%= render partial: "answer", locals: {question: question, answer: answer, f: f} %>
+  <% end %>
+  <%= f.button "Answer", disabled: question.answered, name: "submit", value: question.id %>
+</div>

@@ -1,12 +1,10 @@
 require 'test_helper'
 
-class SiteLayoutTest < ActionDispatch::IntegrationTest
+class QuizAnsweringTest < ActionDispatch::IntegrationTest
   
   def setup
     @user = users(:mark)
-    get login_path
-    post login_path, params: { session: { email:    @user.email,
-                                          password: 'password' } }
+    log_in_as(@user)
     assert is_logged_in?
     post quizzes_path
     assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
@@ -14,15 +12,13 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     get quiz_path
   end
 
-  test "should show quiz start page" do
-    setup
+  test "should show blank quiz start page" do
     assert_select "h1", "Chemical Symbol Quiz"
     assert_no_match '✔️', response.body
     assert_no_match '❌', response.body
   end
   
   test "should answer question correctly" do
-    setup
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.first
@@ -45,7 +41,6 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   end
   
   test "should answer question incorrectly" do
-    setup
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.second
@@ -69,7 +64,6 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   end
   
   test "should show answer when no answer given" do
-    setup
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @question = @quiz.questions.third
@@ -91,7 +85,6 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   end
   
   test "should show results at end of test" do
-    setup
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     @quiz.questions.each do |question|
@@ -110,7 +103,6 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   end
   
   test "should answer all unanswered questions" do
-    setup
     assert_select "h1", "Chemical Symbol Quiz"
     @quiz = Quiz.find_by user_id: @user.id
     patch quiz_path(@quiz.id), params: {

@@ -21,3 +21,5 @@ done
 - quiz score record
 - high score
 - formatting quiz page
+- setup on tests
+- only admin can see all users + remove link to users
