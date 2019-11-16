@@ -11,7 +11,7 @@
       </p>
     </div>
     
-    <div class="col-sm-4">
+    <div class="col-sm-4" id="quizname">
       <h1><%= @quiz_type.name %></h1>
     </div>
     
@@ -24,31 +24,22 @@
   <div id="row">
     
     <%= form_with model: @quiz, method: "patch", html: {class: "question"} do |f| %>
+    
     <div class="grid-container">  
       <% @quiz.questions.each_with_index do |question, index| %>
-      
-        <div class="grid-item" id="question">
-          <p><strong><%= index + 1 %>. <%= question.prompt %></strong></p>
-            
-          <% question.answers.each do |answer| %>
-            <div class="radio">
-              <%= f.radio_button question.id, answer.text, options = {checked: answer.text == question.chosen_answer, disabled: question.answered}  %>
-              <%= answer.text %>
-              <%= if question.answered && (answer.text == question.chosen_answer || answer.text == question.correct_answer)
-                    answer.text == question.correct_answer ? '✔️' : '❌'
-              end %>
-            </div>
-          <% end %>
-          <%= f.button "Answer", disabled: question.answered, name: "submit", value: question.id %>
-        </div>
+        <%= render partial: "question", locals: {question: question, f: f, index: index} %>
       <% end %>
     </div>
+  
+  </div>
+  
+  <div id="row">
     
-    <div id="row">
-      <div class="col-sm-12" id="bottom">
-        <%= f.button "Answer All", name: "submit", value: "all", class: "answerall" %>
-        <% end %>      
-      </div>
+    <div class="col-sm-12" id="bottom">
+      <%= f.button "Answer All", name: "submit", value: "all", class: "answerall" %>
     </div>
+    
+    <% end %>
+    
   </div>
 </div>

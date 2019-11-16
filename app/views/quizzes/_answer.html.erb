@@ -1,0 +1,7 @@
+<div class="radio">
+  <%= f.radio_button question.id, answer.text, options = {checked: answer.text == question.chosen_answer, disabled: question.answered}  %>
+  <%= answer.text %>
+  <%= if question.answered && (answer.text == question.chosen_answer || answer.text == question.correct_answer)
+        answer.text == question.correct_answer ? '✔️' : '❌'
+  end %>
+</div>

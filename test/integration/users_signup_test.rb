@@ -13,10 +13,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     assert_template 'users/new'
     assert_select 'div#error_explanation'
-    assert_select 'div.field_with_errors', 'Name'
-    assert_select 'div.field_with_errors', 'Email'
-    assert_select 'div.field_with_errors', 'Password'
-    assert_select 'div.field_with_errors', 'Confirmation'
+    assert_select 'div.field_with_errors', count: 8
     assert_select 'li', "Name can't be blank"
     assert_select 'li', 'Email is invalid'
     assert_select 'li', "Password is too short (minimum is 6 characters)"
