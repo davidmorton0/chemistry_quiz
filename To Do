@@ -1,7 +1,7 @@
 - other types of quizzes
 - user sign up emails
 - quiz generator
-- tidy up code
+- tidy up code - move into model
 - tests for score
 - fastest score
 - new quiz on resume if all answered

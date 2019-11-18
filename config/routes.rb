@@ -35,4 +35,5 @@ Rails.application.routes.draw do
                                 #:update,
                                 #:destroy
                               ]
+  resources :account_activations, only: [:edit]
 end
