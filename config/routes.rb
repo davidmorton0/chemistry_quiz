@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+  get 'password_resets/edit'
   get 'sessions/new'
   root 'chem_pages#home'                    #main page - static
   get '/help', to: 'chem_pages#help'        #help page - static
@@ -19,21 +21,22 @@ Rails.application.routes.draw do
                             :update,        #post to update current user
                             :destroy        #deletes user - admin
                           ]
-  resources :quizzes, only: [ :index,       #shows all quizzes
+  resources :quizzes, only: [ :index,       #finds current quiz for user and redirects if one, if not create new
                             #:new,           
                             :create,        #creates new quiz
                             :show,          #shows quiz
                             #:edit,         #not needed
-                              :update,      #answers questions on a quiz
+                            :update,        #answers questions on a quiz
                             #:destroy       #not needed
                             ]
   resources :questions, only: [ :index,   #shows all questions - admin
                                 #:new,
                                 #:create,
-                                :show,
+                                :show,    #shows a question - admin
                                 #:edit,
                                 #:update,
                                 #:destroy
                               ]
   resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
 end
