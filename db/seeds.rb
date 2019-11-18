@@ -11,7 +11,9 @@ User.create(id: 1,
             email: "bob@example.com",
             password: "password",
             password_confirmation: "password",
-            admin: true)
+            admin: true,
+            activated: true,
+            activated_at: Time.zone.now)
             
 QuizType.create(id: 1,
                 name: "Chemical Symbol Quiz",
@@ -30,5 +32,7 @@ Score.create( id: 1,
   User.create!( name: name,
                 email: email,
                 password: password,
-                password_confirmation: password)
+                password_confirmation: password,
+                activated: true,
+                activated_at: Time.zone.now)
 end
