@@ -4,64 +4,40 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
   
   test "should get current quiz start page" do
     @user = users(:michael)
-    get login_path
-    post login_path, params: { session: { email:    @user.email,
-                                          password: 'password' } }
-    assert is_logged_in?
+    log_in_as(@user)
     assert_no_difference 'Quiz.count' do
       get quizzes_path
       assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
       follow_redirect!
       assert_template "show"
-      assert_select "h1", "Chemical Symbol Quiz"
-      assert_match "1. What is the chemical symbol for", response.body
-      assert_select "input[type=?]", 'radio', count: 16
-      assert_select "button[type=?]", 'submit', count: 5
-      assert_equal Quiz.first.id, 5
-      assert_equal QuizType.find(Quiz.first.quiz_type_id).difficulty, 3
-      assert_equal Quiz.first.score, 1
-      assert_equal questions.first.id, 20
-      assert_equal questions.second.id, 21
-      assert_equal questions.third.id, 22
+      assert_select "h1", @user.quiz.quiz_type.name
+      assert_select "input[type=?]", 'radio', count: @user.quiz.answers.count
+      assert_select "p", "1. #{@user.quiz.questions.first.prompt}"
+      assert_select "button[type=?]", 'submit', count: @user.quiz.questions.count + 1
     end
   end
 
   test "should start new quiz" do
     @user = users(:michael)
-    get login_path
-    post login_path, params: { session: { email:    @user.email,
-                                          password: 'password' } }
-    assert is_logged_in?
+    log_in_as(@user)
+    @quiz_type = quiz_types(:one)
     assert_no_difference 'Quiz.count' do
-      post quizzes_url
+      get quiz_type_path(@quiz_type.id)
       assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
       follow_redirect!
       assert_template "show"
-      assert_select "h1", "Chemical Symbol Quiz"
-      assert_match "1. What is the chemical symbol for", response.body
-      assert_select "input[type=?]", 'radio', count: 40
-      assert_select "button[type=?]", 'submit', count: 11
-      assert_not_equal 5, Quiz.find_by(user_id: @user.id).id
+      assert_select "h1", @user.quiz.quiz_type.name
+      assert_select "input[type=?]", 'radio', count: @user.quiz.answers.count
+      assert_select "p", "1. #{@user.quiz.questions.first.prompt}"
+      assert_select "button[type=?]", 'submit', count: @user.quiz.questions.count + 1
     end
   end
 
-  test "should create new quiz for new user" do
+  test "should redirect from resume quiz to new quiz page for new user" do
     @user = users(:mary)
-    get login_path
-    post login_path, params: { session: { email:    @user.email,
-                                          password: 'password' } }
-    assert is_logged_in?
-    
-    assert_difference 'Quiz.count', 1 do
-      get quizzes_path
-      assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
-      follow_redirect!
-      assert_template "show"
-      assert_select "h1", "Chemical Symbol Quiz"
-      assert_match "1. What is the chemical symbol for", response.body
-      assert_select "input[type=?]", 'radio', count: 40
-      assert_select "button[type=?]", 'submit', count: 11
-    end
+    log_in_as(@user)
+    get quizzes_path
+    assert_redirected_to quiz_types_path
   end
 
   test "should answer a question incorrectly" do

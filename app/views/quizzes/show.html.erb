@@ -9,6 +9,11 @@
             .length == 0 ? "You scored: #{@quiz.score}/#{@quiz.questions.count}" : "Current Score: #{@quiz.score}" %>
         </strong>
       </p>
+      <p>
+        <strong>
+          Level: <%= @quiz.quiz_type.level %>
+        </strong>
+      </p>
     </div>
     
     <div class="col-sm-4" id="quizname">
@@ -16,7 +21,7 @@
     </div>
     
     <div class="col-sm-4" id="startagain">
-      <%= link_to "Start again", quizzes_path, method: "post", class: "btn btn-lg btn-primary" %>
+      <%= link_to "Start again", quiz_type_path(@quiz.quiz_type), class: "btn btn-lg btn-primary" %>
     </div>
     
   </div>
