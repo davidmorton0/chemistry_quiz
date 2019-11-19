@@ -23,7 +23,7 @@ Rails.application.routes.draw do
                           ]
   resources :quizzes, only: [ :index,       #finds current quiz for user and redirects if one, if not create new
                             #:new,           
-                            :create,        #creates new quiz
+                            #:create,        #creates new quiz
                             :show,          #shows quiz
                             #:edit,         #not needed
                             :update,        #answers questions on a quiz
@@ -37,6 +37,8 @@ Rails.application.routes.draw do
                                 #:update,
                                 #:destroy
                               ]
-  resources :account_activations, only: [:edit]
-  resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :account_activations, only: [ :edit]
+  resources :password_resets,     only: [ :new,  :create, :edit, :update]
+  resources :quiz_types,          only:  [  :index, #choose quiz page
+                                            :show]  #creates chosen quiz and redirects to quiz page
 end

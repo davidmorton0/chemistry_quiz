@@ -4,12 +4,12 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
   
   def setup
     @user = users(:mark)
+    @quiz_type = quiz_types(:one)
     log_in_as(@user)
     assert is_logged_in?
-    post quizzes_path
+    get quiz_type_path(@quiz_type.id)
     assert_redirected_to quiz_path(Quiz.find_by(user_id: @user.id).id)
     follow_redirect!
-    get quiz_path
   end
 
   test "should show blank quiz start page" do

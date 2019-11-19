@@ -1,0 +1,25 @@
+<% provide(:title, "Choose a Quiz") %>
+
+<h1>Choose a Quiz</h1>
+
+<div class="row">
+  <div class="col-md-12">
+      <table class="choosequiztable">
+        <tr>
+          <th>Quiz Name</th>
+          <th>Level</th>
+          <th>Difficulty</th>
+          <th>Number of Questions</th>
+        </tr>
+    
+        <% @quiztypes.each do |quiztype| %>
+          <tr>
+            <td><%= link_to quiztype.name, quiz_type_path(quiztype.id) %></td>
+            <td><%= quiztype.level %></td>
+            <td><%= quiztype.difficulty %></td>
+            <td><%= quiztype.num_questions %></td>
+          </tr>
+        <% end %>
+      </table>
+  </div>
+</div>
