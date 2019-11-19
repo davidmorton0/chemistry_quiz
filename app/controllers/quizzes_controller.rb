@@ -12,10 +12,11 @@ class QuizzesController < ApplicationController
     if logged_in?
       user = current_user
       @quiz = Quiz.find_by(user_id: user)
-      if !@quiz
-        @quiz = make_new_quiz(1, user.id)
+      if @quiz
+        redirect_to quiz_path(@quiz.id)
+      else
+        redirect_to quiz_types_path
       end
-      redirect_to quiz_path(@quiz.id)
     else
       flash[:danger] = 'Log in to do a quiz'
       redirect_to login_path
@@ -28,15 +29,7 @@ class QuizzesController < ApplicationController
   end
   
   def create
-    if logged_in?
-      user = current_user
-      Quiz.find_by(user_id: user)&.destroy
-      @quiz = make_new_quiz(1, user.id)
-      redirect_to quiz_path(@quiz.id)
-    else
-      flash[:danger] = 'Log in to do a quiz'
-      redirect_to login_path
-    end
+    raise
   end
   
   def update

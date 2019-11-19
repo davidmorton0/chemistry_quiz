@@ -1,10 +1,13 @@
 - other types of quizzes
-- user sign up emails
 - quiz generator
 - tidy up code - move into model
 - tests for score
 - fastest score
 - new quiz on resume if all answered
+- quiz description
+- harder/easier versions
+- start again
+- tidy routes
 
 done
 
@@ -23,3 +26,5 @@ done
 - formatting quiz page
 - setup on tests
 - only admin can see all users + remove link to users
+- user sign up emails
+- has_many :through

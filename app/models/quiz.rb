@@ -1,5 +1,6 @@
 class Quiz < ApplicationRecord
   has_many :questions, :dependent => :destroy
+  has_many :answers, through: :questions
   has_one :user
   belongs_to :quiz_type
   validates :score,  presence: true, numericality: { greater_than_or_equal_to: 0}
