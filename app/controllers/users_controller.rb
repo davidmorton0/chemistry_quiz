@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   def show
     @user = current_user
     redirect_to root_url and return unless @user.activated?
+    @scores = @user.scores.sort_by {|score| [score.quiz_type.name, score.quiz_type.level] }
   end
   
   def new
