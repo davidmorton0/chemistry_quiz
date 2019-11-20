@@ -9,10 +9,10 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
   end
   
   test "should show question" do
-    q = 20
-    get question_path(q)
+    @question = Question.first
+    get question_path(@question.id)
     assert_response :success
-    assert_select "title", "Question #{q}#{@base_title}"
+    assert_select "title", "Question #{@question.id}#{@base_title}"
   end
   
 end

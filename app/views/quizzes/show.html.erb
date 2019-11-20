@@ -4,20 +4,19 @@
     
     <div class="col-sm-4" id="score">   
       <p class="score">
-        <strong>
           <%= @quiz.questions.select { |question| question.answered == false }
-            .length == 0 ? "You scored: #{@quiz.score}/#{@quiz.questions.count}" : "Current Score: #{@quiz.score}" %>
-        </strong>
+            .length == 0 ? "You scored: #{@quiz.score}/#{@quiz.quiz_type.num_questions}" : "Current Score: #{@quiz.score}" %>
       </p>
-      <p>
-        <strong>
+      <p class="info">
+          Your High Score: <%= @score ? @score.score : 0 %>
+      </p>
+      <p class="info">
           Level: <%= @quiz.quiz_type.level %>
-        </strong>
       </p>
     </div>
     
     <div class="col-sm-4" id="quizname">
-      <h1><%= @quiz_type.name %></h1>
+      <h1><%= @quiz.quiz_type.name %></h1>
     </div>
     
     <div class="col-sm-4" id="startagain">
@@ -26,9 +25,9 @@
     
   </div>
   
-  <div id="row">
-    
     <%= form_with model: @quiz, method: "patch", html: {class: "question"} do |f| %>
+
+  <div id="row">
     
     <div class="grid-container">  
       <% @quiz.questions.each_with_index do |question, index| %>
@@ -44,7 +43,7 @@
       <%= f.button "Answer All", name: "submit", value: "all", class: "answerall" %>
     </div>
     
-    <% end %>
-    
   </div>
+  <% end %>
+  
 </div>

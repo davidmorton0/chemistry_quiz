@@ -12,12 +12,12 @@
           <th>Number of Questions</th>
         </tr>
     
-        <% @quiztypes.each do |quiztype| %>
+        <% @quiz_types.each do |quiz_type| %>
           <tr>
-            <td><%= link_to quiztype.name, quiz_type_path(quiztype.id) %></td>
-            <td><%= quiztype.level %></td>
-            <td><%= quiztype.difficulty %></td>
-            <td><%= quiztype.num_questions %></td>
+            <td><%= link_to quiz_type.name, quiz_type_path(quiz_type.id) %></td>
+            <td><%= quiz_type.level %></td>
+            <td><%= quiz_type.difficulty %></td>
+            <td><%= quiz_type.num_questions %></td>
           </tr>
         <% end %>
       </table>

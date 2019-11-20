@@ -13,13 +13,15 @@
     <table class="scoretable">
       <tr>
         <th>Quiz</th>
+        <th>Level</th>
         <th>Difficulty</th>
-        <th>High Score</th>
+        <th>Your Highest Score</th>
       </tr>
   
-      <% @user.scores.each do |score| %>
+      <% @scores.each do |score| %>
         <tr>
-          <td><%= score.quiz_type.name %></td>
+          <td><%= link_to score.quiz_type.name, quiz_type_path(score.quiz_type_id) %></td>
+          <td><%= score.quiz_type.level %></td>
           <td><%= score.quiz_type.difficulty %></td>
           <td><%= "#{score.score} / #{score.quiz_type.num_questions}" %></td>
         </tr>

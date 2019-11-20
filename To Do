@@ -1,13 +1,13 @@
 - other types of quizzes
-- quiz generator
 - tidy up code - move into model
-- tests for score
 - fastest score
-- new quiz on resume if all answered
 - quiz description
-- harder/easier versions
-- start again
 - tidy routes
+- add admin buttons
+- test layout links by location
+- database access optimisation - e.g. answer all questions together or simultaneously
+- remove unneeded columns
+- test for symbol quiz
 
 done
 
@@ -28,3 +28,8 @@ done
 - only admin can see all users + remove link to users
 - user sign up emails
 - has_many :through
+- harder/easier versions
+- start again
+- tests for score
+- element name quiz
+- quiz generator

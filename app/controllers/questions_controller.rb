@@ -1,5 +1,3 @@
-require 'chem_data.rb'
-
 class QuestionsController < ApplicationController
   
   #admin use

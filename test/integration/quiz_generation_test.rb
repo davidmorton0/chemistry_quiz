@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class SiteLayoutTest < ActionDispatch::IntegrationTest
-  include QuestionGenerator
-  include QuizzesHelper
-  
+class QuizGenerationTest < ActionDispatch::IntegrationTest
+
   test "gets question data" do
-    question = symbol_question(100, rand(98))
+    quiz = Quiz.new
+    question = Question.new
+    question = quiz.symbol_question(100, rand(98))
     assert_match "What is the chemical symbol for", question.prompt
     correct_count = 0
     question.answers.each do |answer|
@@ -28,7 +28,8 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   
   test "makes 10 question test" do
     @quiztype = quiz_types(:one)
-    quiz = make_new_quiz(@quiztype, 2)
+    quiz = Quiz.new
+    quiz.make_new_quiz(@quiztype, 2)
     assert_equal quiz.questions.count, @quiztype.num_questions
     assert_equal quiz.answers.count, @quiztype.num_questions * 4
     assert_equal quiz.user_id, 2
@@ -37,7 +38,8 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   
   test "all questions different with 4 answers" do
     @quiztype = quiz_types(:one)
-    quiz = make_new_quiz(@quiztype, 2)
+    quiz = Quiz.new
+    quiz.make_new_quiz(@quiztype, 2)
     quiz.questions.each do |question|
       assert_equal question.answers.count, 4
       question_count = 0

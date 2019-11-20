@@ -20,7 +20,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", contact_path, count: 1
     assert_select "a[href=?]", signup_path, count: 1
     assert_select "a[href=?]", quiz_types_path, count: 1
-    assert_select "a[href=?]", quizzes_path, count: 1
+    assert_select "a[href=?]", quiz_path, count: 1
     assert_select "a[href=?]", logout_path, count: 1
     assert_select "a[href=?]", edit_user_path(@user), count: 1
     assert_select "a[href=?]", "#", count: 1
@@ -39,7 +39,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", contact_path, count: 1
     assert_select "a[href=?]", signup_path, count: 1
     assert_select "a[href=?]", quiz_types_path, count: 1
-    assert_select "a[href=?]", quizzes_path, count: 1
+    assert_select "a[href=?]", quiz_path, count: 1
     assert_select "a[href=?]", logout_path, count: 1
     assert_select "a[href=?]", edit_user_path(@user), count: 1
     assert_select "a[href=?]", "#", count: 1
@@ -57,7 +57,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", contact_path, count: 1
     assert_select "a[href=?]", signup_path, count: 1
     assert_select "a[href=?]", quiz_types_path, count: 1
-    assert_select "a[href=?]", quizzes_path, count: 1
+    assert_select "a[href=?]", quiz_path, count: 1
     assert_select "a", count: 11
   end
   
