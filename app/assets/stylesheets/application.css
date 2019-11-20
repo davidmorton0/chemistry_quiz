@@ -21,6 +21,11 @@ h1 {
 
 .btn.btn-lg.btn-primary {
   padding: 0.5em;
-  background-color: DarkBlue;
-  border: 2px solid LightBlue;
+  color: DarkBlue;
+  background-color: LightBlue;
+  border: 2px solid DarkBlue;
+}
+
+.jumbotron {
+  color: DarkBlue;
 }

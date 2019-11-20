@@ -1,9 +1,9 @@
-User.destroy_all
-QuizType.destroy_all
-Quiz.destroy_all
-Question.destroy_all
-Answer.destroy_all
 Score.destroy_all
+Answer.destroy_all
+Question.destroy_all
+Quiz.destroy_all
+QuizType.destroy_all
+User.destroy_all
 
 user = User.create!(id: 1,
             name: "Bob",
@@ -29,6 +29,20 @@ quiz3 = QuizType.create!(name: "Chemical Symbol Quiz",
                 num_questions: 10,
                 difficulty: 4)
 
+quiz4 = QuizType.create!(name: "Chemical Element Quiz",
+                level: 1,
+                num_questions: 10,
+                difficulty: 1)
+
+quiz5 = QuizType.create!(name: "Chemical Element Quiz",
+                level: 2,
+                num_questions: 10,
+                difficulty: 2)
+                
+quiz6 = QuizType.create!(name: "Chemical Element Quiz",
+                level: 3,
+                num_questions: 10,
+                difficulty: 4)
                 
 Score.create!(  score: 6,
                 user_id: user.id,

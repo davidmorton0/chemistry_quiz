@@ -1,7 +1,7 @@
 one:
   user_id: 1
   quiz_type_id: 1
-  score: 4
+  score: 3
 
 two:
   user_id: 1 
