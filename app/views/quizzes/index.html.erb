@@ -1,0 +1,30 @@
+<% provide(:title, "Quiz Index") %>
+<h1>Quizzes</h1>
+
+<%= will_paginate %>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Level</th>
+    <th>Difficulty</th>
+    <th>Number of Questions</th>
+    <th>User</th>
+    <th>Score</th>
+    <th></th>
+  </tr>
+
+  <% @quizzes.each do |quiz| %>
+    <tr>
+      <td><%= quiz.id %></td>
+      <td><%= quiz.quiz_type.name %></td>
+      <td><%= quiz.quiz_type.level %></td>
+      <td><%= quiz.quiz_type.difficulty %></td>
+      <td><%= quiz.quiz_type.num_questions %></td>
+      <td><%= User.find(quiz.user_id).name %></td>
+      <td><%= quiz.score %></td>
+      <td><%= link_to 'Show', quiz_view_path(quiz.id) %></td>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate %>

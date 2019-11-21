@@ -11,3 +11,10 @@ two:
   num_questions: 10
   difficulty: 3
   level: 1
+  
+three:
+  id: 3
+  name: "Chemical Symbol Quiz"
+  num_questions: 10
+  difficulty: 2
+  level: 2

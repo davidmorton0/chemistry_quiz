@@ -2,16 +2,49 @@ p.score {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   color: DarkBlue;
   font-size: 1.4em;
-  margin: 1.8em 1em;
+  margin: 0.5em 1em;
   background-color: LightBlue;  
   border: 2px solid DarkBlue;
   text-align: center;
 }
 
-.btn.btn-lg.btn-primary {
-  margin: 1.8em auto;
+.btn-primary.quiz {
+  width: 45%;
+  font-size: 1.2em;
+  margin: 0.5em auto;
 }
 
+
+.info {
+  color: DarkBlue;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-left: 2em;
+}
+
+.level {
+  padding: 0em;
+  color: black;
+  margin: 0em 0em;
+  width: 25%;
+  border: black;
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.level.l1 {
+  background-color: green;
+}
+
+.level.l2 {
+  background-color: yellow;
+}
+
+.level.l3 {
+  background-color: red;
+}
 
 form.question {
   width: 100%;
@@ -31,8 +64,11 @@ form.question {
   padding: 0.8em;
 }
 
-
 button.answerall {
   margin: 1em auto;
   display: block;
+}
+
+.alert-info {
+  font-weight: bold;
 }

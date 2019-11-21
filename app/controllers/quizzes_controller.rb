@@ -1,5 +1,13 @@
 class QuizzesController < ApplicationController
   
+  def index
+    if current_user.admin?
+      @quizzes = Quiz.paginate(page: params[:page], per_page: 5)
+    else
+      redirect_to root_path
+    end
+  end
+  
   def show
     if logged_in?
       user = current_user
@@ -15,8 +23,18 @@ class QuizzesController < ApplicationController
     end
   end
   
+  #show any quiz as admin
+  def view
+    if current_user.admin?
+      @quiz = Quiz.find(params[:id])
+      render 'show'
+    else
+      redirect_to root_path
+    end
+  end
+  
   def update
-    #answer questions
+      #answer questions
     @quiz = current_user.quiz
     if params[:submit] == "all"
       @quiz.questions.each do |question|
@@ -32,7 +50,7 @@ class QuizzesController < ApplicationController
           .select{|question| !question.answered}
           .length == 0
         @quiz.reload
-        flash[:success] = "New High Score" if @quiz.update_high_score
+        flash[:info] = "New High Score!" if @quiz.update_high_score
     end
     
     respond_to do |format|

@@ -1,9 +1,12 @@
 <% provide(:title, "Question Index") %>
 <h1>Questions</h1>
 
+<%= will_paginate %>
 <table>
   <tr>
     <th>ID</th>
+    <th>Quiz Type</th>
+    <th>Quiz ID</th>
     <th>Prompt</th>
     <th></th>
   </tr>
@@ -11,8 +14,11 @@
   <% @questions.each do |question| %>
     <tr>
       <td><%= question.id %></td>
+      <td><%= question.quiz.quiz_type.name %></td>
+      <td><%= question.quiz.id %></td>
       <td><%= question.prompt %></td>
       <td><%= link_to 'Show', question_path(question) %></td>
     </tr>
   <% end %>
 </table>
+<%= will_paginate %>

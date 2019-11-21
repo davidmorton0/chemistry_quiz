@@ -1,21 +1,19 @@
 <% provide(:title, "Question #{@question.id}") %>
+
 <p>
   <strong>Question ID:</strong><%= @question.id %>
 </p>
-
 <p>
   <strong>Quiz ID:</strong><%= @question.quiz_id %>
 </p>
-
 <p>
   <strong>Prompt:</strong><%= @question.prompt %>
 </p>
-
 <p>
   <strong>Answers:</strong>
 </p>
 
-<ul>
+<ul class="answer">
   <% @question.answers.each do |answer| %>
     <li><%= answer.text %></li>
   <% end %>
@@ -24,19 +22,15 @@
 <p>
   <strong>Correct Answer:</strong><%= @question.correct_answer %>
 </p>
-
 <p>
   <strong>Answered:</strong><%= @question.answered %>
 </p>
-
 <p>
   <strong>Chosen Answer:</strong><%= @question.chosen_answer %>
 </p>
-
 <p>
   <strong>Created:</strong><%= @question.created_at %>
 </p>
-
 <p>
   <strong>Updated:</strong><%= @question.updated_at %>
 </p>
