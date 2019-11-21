@@ -1,5 +1,5 @@
-require './app/models/quizzes/symbol_quiz.rb'
-require './app/models/quizzes/element_quiz.rb'
+#require './app/models/quizzes/symbol_quiz.rb'
+#require './app/models/quizzes/element_quiz.rb'
 
 class Quiz < ApplicationRecord
   include SymbolQuiz
