@@ -8,7 +8,7 @@ class HighScoresTest < ActionDispatch::IntegrationTest
     @quiz_type = @score.quiz_type
     log_in_as(@user)
     get user_path(@user)
-    assert_select 'title', "#{@user.name}#{@base_title}"
+    assert_select 'title', "#{@user.name}#{base_title}"
     assert_select 'table' do
       assert_select 'tr:nth-child(2)' do
         assert_select 'td:nth-child(1)', "#{@quiz_type.name}"
@@ -51,7 +51,7 @@ class HighScoresTest < ActionDispatch::IntegrationTest
     
       #check high score updated
     get user_path(@user)
-    assert_select 'title', "#{@user.name}#{@base_title}"
+    assert_select 'title', "#{@user.name}#{base_title}"
     assert_select 'table' do
       assert_select 'tr:nth-child(3)' do
         assert_select 'td:nth-child(1)', "#{@quiz_type.name}"
@@ -126,7 +126,7 @@ class HighScoresTest < ActionDispatch::IntegrationTest
     
       #check high score updated
     get user_path(@user)
-    assert_select 'title', "#{@user.name}#{@base_title}"
+    assert_select 'title', "#{@user.name}#{base_title}"
     assert_select 'table' do
       assert_select 'tr:nth-child(2)' do
         assert_select 'td:nth-child(1)', "#{@quiz_type.name}"
@@ -165,7 +165,7 @@ class HighScoresTest < ActionDispatch::IntegrationTest
     
       #check high score updated
     get user_path(@user)
-    assert_select 'title', "#{@user.name}#{@base_title}"
+    assert_select 'title', "#{@user.name}#{base_title}"
     assert_select 'table' do
       assert_select 'tr:nth-child(2)' do
         assert_select 'td:nth-child(1)', "#{@quiz_type.name}"

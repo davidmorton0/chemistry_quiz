@@ -68,16 +68,28 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     end
   end
   
-  test "main page links" do
+  test "main page links when logged in" do
+    log_in_as(@non_admin)
+    get root_path
+    assert_template 'chem_pages/home'
+    assert_template partial: '_head', count: 1
+    assert_template partial: '_shim', count: 1
+    assert_select "div.center" do
+      assert_select "a[href=?]", quiz_types_path, count: 1
+      assert_select "a[href=?]", quiz_path, count: 1
+      assert_select "a", count: 2
+    end
+  end
+  
+  test "main page links when logged out" do
+    delete logout_path
     get root_path
     assert_template 'chem_pages/home'
     assert_template partial: '_head', count: 1
     assert_template partial: '_shim', count: 1
     assert_select "div.center" do
       assert_select "a[href=?]", signup_path, count: 1
-      assert_select "a[href=?]", quiz_types_path, count: 1
-      assert_select "a[href=?]", quiz_path, count: 1
-      assert_select "a", count: 3
+      assert_select "a", count: 1
     end
   end
 end

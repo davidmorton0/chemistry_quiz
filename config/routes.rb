@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   root 'chem_pages#home'                            # main page
   get '/quiz', to: 'quizzes#show'                   # current quiz for user or redirects to choose quiz if none
   patch '/quiz', to: 'quizzes#update'               # answers questions on a quiz
+  get '/quiz_index', to: 'quizzes#index'            # index of quizzes - admin
+  get '/quiz_view/:id', to: 'quizzes#view',         # show selected quiz - admin
+                        as: :quiz_view
   get '/help', to: 'chem_pages#help'                # help page
   get '/about', to: 'chem_pages#about'              # about page
   get '/contact', to: 'chem_pages#contact'          # contact page

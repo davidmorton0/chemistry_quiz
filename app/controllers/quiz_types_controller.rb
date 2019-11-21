@@ -1,6 +1,6 @@
 class QuizTypesController < ApplicationController
   def index
-    @quiz_types = QuizType.all
+    @quiz_types = QuizType.paginate(page: params[:page], per_page: 5)
   end
   
   def show
