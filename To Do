@@ -1,10 +1,6 @@
-- other types of quizzes
 - tidy up code - move into model
 - fastest score
 - quiz description
-- tidy routes
-- add admin buttons
-- test layout links by location
 - database access optimisation - e.g. answer all questions together or simultaneously
 - remove unneeded columns
 - test for symbol quiz
@@ -33,3 +29,8 @@ done
 - tests for score
 - element name quiz
 - quiz generator
+- add admin links
+- tidy routes
+- element name quiz
+- test for element name quiz
+- test layout links by location
