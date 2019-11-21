@@ -2,16 +2,20 @@ class QuestionsController < ApplicationController
   
   #admin use
   def index
-    @questions = Question.all
+    if current_user.admin?
+      @questions = Question.all
+    else
+      redirect_to root_path
+    end
   end
   
   #admin use
   def show
-    @question = Question.find(params[:id])
-  end
-  
-  private
-    def question_params
-      params.require(:question).permit(:prompt, :correct_answer, :quiz, :answered, :chosen_answer)
+    if current_user.admin?
+      @question = Question.find(params[:id])
+    else
+      redirect_to root_path
     end
+  end
+
 end
