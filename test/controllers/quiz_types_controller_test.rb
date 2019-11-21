@@ -5,7 +5,7 @@ class QuizTypesControllerTest < ActionDispatch::IntegrationTest
     @quiz_type = QuizType.first
     get quiz_types_path
     assert_response :success
-    assert_select "title", "Choose a Quiz#{@base_title}"
+    assert_select "title", "Choose a Quiz#{base_title}"
     assert_select "a[href=?]", quiz_type_path(@quiz_type.id)
     assert_select "td", "#{@quiz_type.level}"
     assert_select "td", "#{@quiz_type.difficulty}"

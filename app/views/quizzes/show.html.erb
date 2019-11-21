@@ -10,7 +10,7 @@
       <p class="info">
           Your High Score: <%= @score ? @score.score : 0 %>
       </p>
-      <p class="info">
+      <p class="<%= "info l#{@quiz.quiz_type.level}" %>">
           Level: <%= @quiz.quiz_type.level %>
       </p>
     </div>
@@ -20,7 +20,17 @@
     </div>
     
     <div class="col-sm-4" id="startagain">
-      <%= link_to "Start again", quiz_type_path(@quiz.quiz_type), class: "btn btn-lg btn-primary" %>
+      <%= link_to "Start again", quiz_type_path(@quiz.quiz_type), class: "btn btn-lg btn-primary quiz" %>
+      <%= link_to "Choose a new quiz", quiz_types_path, class: "btn btn-lg btn-primary quiz" %>
+      <% (1..3).each do |x| %>
+        <% if @quiz.quiz_type.level != x %>
+          <% @id = QuizType.find_by(level: x, name: @quiz.quiz_type.name) %>
+          <% if @id %>
+            <%= link_to "Level #{x}", quiz_type_path(@id), class: "btn btn-lg btn-primary level l#{x}" %>
+          <% end %>
+        <% end %>
+      <% end %>
+      
     </div>
     
   </div>

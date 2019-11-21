@@ -1,9 +1,11 @@
-- tidy up code - move into model
 - fastest score
 - quiz description
 - database access optimisation - e.g. answer all questions together or simultaneously
-- remove unneeded columns
-- test for symbol quiz
+- sample data - factories
+- user => quiz link
+- change show/view paths for quizzes
+- before action for question/quiz indexes
+- global high scores
 
 done
 
@@ -34,3 +36,7 @@ done
 - element name quiz
 - test for element name quiz
 - test layout links by location
+- remove unneeded columns
+- paginate
+- test for symbol quiz
+- tidy up code - move into model

@@ -13,13 +13,13 @@
  *= require_tree .
  *= require_self
  */
- 
+
 h1 {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   color: DarkBlue;
 }
 
-.btn.btn-lg.btn-primary {
+.btn-primary {
   padding: 0.5em;
   color: DarkBlue;
   background-color: LightBlue;
