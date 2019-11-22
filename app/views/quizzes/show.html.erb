@@ -35,7 +35,7 @@
     
   </div>
   
-    <%= form_with model: @quiz, method: "patch", html: {class: "question"} do |f| %>
+    <%= form_with model: @quiz, method: "patch", html: {class: "question", name: @quiz.created_at} do |f| %>
 
   <div id="row">
     

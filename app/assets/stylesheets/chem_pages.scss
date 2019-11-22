@@ -4,12 +4,40 @@
 
 .btn-primary.home {
   width: 15%;
+  margin-top: 8em;
+}
+
+h1.maintitle {
+  margin: 0px;
+  padding: 0em;
 }
 
 div.jumbotron {
-  background-image: url('beakers.jpg');
-  background-repeat: no-repeat;
-  background-size: 25% 100%;
+  margin-top: 1em;
+  position: relative;
   background-color: PowderBlue;
   border: 2px solid DarkBlue;
+  z-index: 0;
+  padding: 1em;
+  height: 21em;
+}
+
+div.home-image {
+  margin: 0px;
+  width: 100%;
+  height:100%;
+  position: absolute;
+  top: 0px;
+  border-radius: 4px;
+  left: 0px;
+  z-index: -1;
+  border: 1px solid black ;
+  overflow: hidden;
+}
+
+img {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  left: 0px;
 }
