@@ -1,12 +1,14 @@
-- clearer correct/wrong/no answer
 - fastest score
 - quiz description
 - database access optimisation - e.g. answer all questions together or simultaneously
 - sample data - factories
-- user => quiz link
 - change show/view paths for quizzes
 - before action for question/quiz indexes
 - global high scores
+- move code from views to helpers
+
+bugs
+- firefox doesn't remember radio buttons on first answer
 
 done
 
@@ -41,3 +43,7 @@ done
 - paginate
 - test for symbol quiz
 - tidy up code - move into model
+- user => quiz link
+- clearer correct/wrong/no answer
+- 2 lines fixed for question height
+- home image
