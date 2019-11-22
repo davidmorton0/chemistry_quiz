@@ -15,8 +15,10 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
   test "should show blank quiz start page" do
     @quiz = Quiz.find_by user_id: @user.id
     assert_select "h1", @quiz.quiz_type.name
-    assert_no_match '✔️', response.body
-    assert_no_match '❌', response.body
+    assert_no_match '\u{2714}️', response.body
+    assert_no_match '\u{274C}️', response.body
+    assert_select "div.radio#correct", 0
+    assert_select "div.radio#incorrect", @quiz.answers.count
   end
 
   test "should answer a question correctly" do
@@ -25,14 +27,14 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
     patch quiz_path, params: {
                               "_method"=>"patch",
                               "submit"=>@question.id.to_s,
-                              "quiz"=>{@question.id.to_s=>@question.correct_answer},
+                              "quiz"=>{@question.id.to_s=>@question.correct_answer.to_s},
                               "commit"=>"Answer",
                               "controller"=>"quizzes",
                               "action"=>"update",
                               "id"=>@quiz.id}, xhr: true
     get quiz_path
-    assert_select "div[class=radio]", /✔️/, count: 1
-    assert_no_match '❌', response.body
+    assert_select "div.radio#correct", /\u{2714}/, count: 1
+    assert_no_match '\u{274C}', response.body
     assert_difference '@quiz.score' do
       @quiz.reload
     end
@@ -54,8 +56,9 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
                               "action"=>"update",
                               "id"=>@quiz.id}, xhr: true
     get quiz_path
-    assert_select "div[class=radio]", /✔️/, count: 1
-    assert_select "div[class=radio]", /❌/, count: 1
+    assert_select "div.radio#correct", count: 1
+    assert_no_match /\u{2714}/, response.body
+    #assert_select "div.radio#incorrect", '\u{274C}' count: 1
     assert_no_difference '@quiz.score' do
       @quiz.reload
     end
@@ -75,8 +78,10 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
                               "action"=>"update",
                               "id"=>@quiz.id}, xhr: true
     get quiz_path
-    assert_select "div[class=radio]", /✔️/, count: 1
-    assert_select "div[class=radio]", {count: 0, text:/❌/}
+    assert_select "div.radio#correct", 1
+    assert_select "div.radio#incorrect", @quiz.answers.count - 1
+    assert_no_match /[\u{2714}]️/, response.body
+    assert_no_match /[\u{274C}]/, response.body
     assert_no_difference '@quiz.score' do
       @quiz.reload
     end
@@ -91,13 +96,20 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
       patch quiz_path, params: {
                               "_method"=>"patch",
                               "submit"=>question.id,
+                              "quiz"=>{question.id.to_s=>question.correct_answer.to_s},
                               "commit"=>"Answer",
                               "controller"=>"quizzes",
                               "action"=>"update",
                               "id"=>@quiz.id}, xhr: true
       get quiz_path
     end
-    assert_select "div[class=radio]", /✔️/, count: 10
+    assert_select "div.radio#correct", @quiz.questions.count
+    assert_select "div.radio#incorrect", @quiz.answers.count - @quiz.questions.count
+    ticks = response.body.scan(/\u{2714}/).count
+    crosses = response.body.scan(/\u{274C}/).count
+    @quiz.reload
+    assert_equal @quiz.score, ticks
+    assert_equal @quiz.questions.count - @quiz.score, crosses
     assert_match "You scored: #{@quiz.score}/#{@quiz.questions.count}", response.body
   end
   
@@ -107,9 +119,8 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
                               "_method"=>"patch",
                               "submit"=>"all",
                               "quiz"=>{
-                                @quiz.questions.first.id.to_s => @quiz.questions.first.answers.first.text,
-                                @quiz.questions.second.id.to_s => @quiz.questions.second.answers.first.text,
-                                @quiz.questions.third.id.to_s => @quiz.questions.third.answers.first.text
+                                @quiz.questions.first.id.to_s => @quiz.questions.first.correct_answer,
+                                @quiz.questions.second.id.to_s => @quiz.questions.second.correct_answer,
                               },
                               "commit"=>"Answer All",
                               "controller"=>"quizzes",
@@ -117,7 +128,7 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
                               "id"=>@quiz.id }, xhr: true
     get quiz_path
     @quiz.reload
-    assert_select "div[class=radio]", /✔️/, count: 10
+    assert_select "div.radio#correct", @quiz.questions.count
     assert_match "You scored: #{@quiz.score}/#{@quiz.questions.count}", response.body
   end
 end

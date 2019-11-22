@@ -19,6 +19,12 @@ h1 {
   color: DarkBlue;
 }
 
+/*
+div {
+  border: 1px solid black;
+}
+*/
+
 .btn-primary {
   padding: 0.5em;
   color: DarkBlue;

@@ -177,7 +177,6 @@ aside {
 
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
-  width: 100%;
   margin-bottom: 15px;
   @include box_sizing;
 }
@@ -213,19 +212,6 @@ input {
 #session_remember_me {
   width: auto;
   margin-left: 0;
-}
-
-/* quiz form */
-.quiz {
-  width: 25%;
-}
-
-.question {
-  width: 40%;
-}
-
-.score {
-  font-weight: bold;
 }
 
 /* Users index */

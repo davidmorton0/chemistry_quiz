@@ -1,6 +1,9 @@
 class Question < ApplicationRecord
-  has_many :answers, :dependent => :destroy
   belongs_to :quiz
+  has_many :answers, :dependent => :destroy
+  has_one :quiz_type, through: :quiz
+  has_one :user, through: :quiz
+  
   validates :prompt,  presence: true
   validates :correct_answer,  presence: true
   validates :quiz_id,  presence: true
