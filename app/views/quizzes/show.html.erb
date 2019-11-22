@@ -40,7 +40,7 @@
   <div id="row">
     
     <div class="grid-container">  
-      <% @quiz.questions.each_with_index do |question, index| %>
+      <% @quiz.questions.sort.each_with_index do |question, index| %>
         <%= render partial: "question", locals: {question: question, f: f, index: index} %>
       <% end %>
     </div>
