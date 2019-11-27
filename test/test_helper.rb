@@ -34,4 +34,28 @@ class ActionDispatch::IntegrationTest
                                           remember_me: remember_me } }
   end
   
+  def answer_all_questions_correctly(quiz)
+    answers = {}
+    quiz.questions.map{ |question| 
+      answers[question.id.to_s] = question.correct_answer
+    }
+    patch quiz_path, params: {
+      "_method"=>"patch",
+      "submit"=>"all",
+      "quiz"=>answers,
+      "commit"=>"Answer All",
+      "controller"=>"quizzes",
+      "action"=>"update",
+      "id"=>quiz.id}, xhr: true
+  end
+  
+  def answer_all_questions_incorrectly(quiz)
+    patch quiz_path, params: {
+      "_method"=>"patch",
+      "submit"=>"all",
+      "commit"=>"Answer All",
+      "controller"=>"quizzes",
+      "action"=>"update",
+      "id"=>@quiz.id}, xhr: true
+  end
 end

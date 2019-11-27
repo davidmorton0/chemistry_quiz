@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_action :admin_user,     only: [:index, :show]
   
   def index
     if current_user.admin?
@@ -16,4 +17,10 @@ class QuestionsController < ApplicationController
     end
   end
 
+  private
+
+    # Confirms an admin user.
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
 end

@@ -9,14 +9,14 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
   
   test "should get quiz index as admin" do
     log_in_as(@admin)
-    get quiz_index_path
+    get quizzes_path
     assert_response :success
     assert_select "title", "Quiz Index#{base_title}"
   end
   
   test "should redirect from quiz index as non-admin" do
     log_in_as(@non_admin)
-    get quiz_index_path
+    get quizzes_path
     assert_redirected_to root_path
   end
   

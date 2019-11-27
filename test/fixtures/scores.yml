@@ -1,9 +1,11 @@
 one:
-  user_id: 1
-  quiz_type_id: 1
-  score: 3
-
-two:
   user_id: 1 
   quiz_type_id: 2
   score: 7
+  fastest_time: 1000
+
+two:
+  user_id: 1 
+  quiz_type_id: 3
+  score: 10
+  fastest_time: 6000

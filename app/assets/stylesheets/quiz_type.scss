@@ -1,3 +1,15 @@
-// Place all the styles related to the QuizType controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.qt_column1 {
+  width: 20%;
+}
+
+.qt_column2 {
+  width: 50%;
+}
+
+.qt_column3 {
+  width: 10%;
+}
+
+tr.quiz_type td:nth-child(2) {
+   text-align: left;
+}

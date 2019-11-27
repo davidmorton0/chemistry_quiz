@@ -9,3 +9,9 @@ two:
   score: 0
   user_id: 100
   quiz_type_id: 1
+  
+three:
+  id: 200
+  score: 0
+  user_id: 100
+  quiz_type_id: 1

@@ -24,6 +24,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get users_path
     assert_response :success
     assert_select "title", "All users#{base_title}"
+    assert_select "a[href=?]", user_path(User.second)
+  end
+  
+  test "should get other user when logged in as admin" do
+    log_in_as(@admin)
+    get user_path(User.second)
+    assert_response :success
+    assert_select "h1", User.second.name
+  end
+  
+  test "should not get other user when not logged in as admin" do
+    log_in_as(@non_admin)
+    get user_path(User.second)
+    assert_response :success
+    assert_select "h1", @non_admin.name
   end
   
   test "should show user" do

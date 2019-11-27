@@ -26,16 +26,16 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
     get question_path(@question.id)
     assert_response :success
     assert_select "title", "Question #{@question.id}#{base_title}"
-    assert_select "p", "Question ID:#{@question.id}"
-    assert_select "p", "Quiz ID:#{@question.quiz_id}"
-    assert_select "p", "Prompt:#{@question.prompt}"
-    assert_select "p", "Question ID:#{@question.id}"
+    assert_select "p", "Question ID: #{@question.id}"
+    assert_select "p", "Quiz ID: #{@question.quiz_id}"
+    assert_select "p", "Prompt: #{@question.prompt}"
+    assert_select "p", "Question ID: #{@question.id}"
     assert_select "ul.answer" do
       assert_select "li", 4
     end
-    assert_select "p", "Correct Answer:#{@question.correct_answer}"
-    assert_select "p", "Answered:#{@question.answered}"
-    assert_select "p", "Chosen Answer:#{@question.chosen_answer}"
+    assert_select "p", "Correct Answer: #{@question.correct_answer}"
+    assert_select "p", "Answered: #{@question.answered}"
+    assert_select "p", "Chosen Answer: #{@question.chosen_answer}"
   end
   
   test "should redirect from question as non_admin" do

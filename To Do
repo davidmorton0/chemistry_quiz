@@ -1,14 +1,13 @@
-- fastest score
-- quiz description
 - database access optimisation - e.g. answer all questions together or simultaneously
-- sample data - factories
 - change show/view paths for quizzes
-- before action for question/quiz indexes
+- fastest score
 - global high scores
-- move code from views to helpers
+- substance name quiz
+- flash - 2 messages
 
 bugs
 - firefox doesn't remember radio buttons on first answer
+- questions change when clicking new quiz
 
 done
 
@@ -47,3 +46,9 @@ done
 - clearer correct/wrong/no answer
 - 2 lines fixed for question height
 - home image
+- order of answers on quiz
+- move code from views to helpers
+- before action for question/quiz indexes
+- sample data - factories
+- quiz description
+- high score test refactor

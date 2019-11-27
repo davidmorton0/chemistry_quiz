@@ -18,3 +18,10 @@ three:
   num_questions: 10
   difficulty: 2
   level: 2
+  
+four:
+  id: 4
+  name: "Substance Properties Quiz"
+  num_questions: 10
+  difficulty: 1
+  level: 1
