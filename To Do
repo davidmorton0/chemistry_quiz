@@ -1,9 +1,9 @@
 - database access optimisation - e.g. answer all questions together or simultaneously
 - change show/view paths for quizzes
-- fastest score
 - global high scores
 - substance name quiz
 - flash - 2 messages
+- css refactor
 
 bugs
 - firefox doesn't remember radio buttons on first answer
@@ -52,3 +52,4 @@ done
 - sample data - factories
 - quiz description
 - high score test refactor
+- fastest score
