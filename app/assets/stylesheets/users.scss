@@ -13,6 +13,16 @@ td {
   border: 1px solid black;
   text-align: center;
   padding: 5px;
-  
 }
 
+tr.scores td.col1 {
+  width: 40%;
+}
+
+tr.scores td.col2 {
+  width: 10%;
+}
+
+tr.scores td.col3 {
+  width: 20%;
+}

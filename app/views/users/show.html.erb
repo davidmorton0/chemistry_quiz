@@ -17,14 +17,16 @@
         <th>Level</th>
         <th>Difficulty</th>
         <th>Your Highest Score</th>
+        <th>Fastest Time For 100% Correct</th>
       </tr>
   
       <% @scores.each do |score| %>
-        <tr>
-          <td><%= link_to score.quiz_type.name, quiz_type_path(score.quiz_type_id) %></td>
-          <td><%= score.quiz_type.level %></td>
-          <td><%= score.quiz_type.difficulty %></td>
-          <td><%= "#{score.score} / #{score.quiz_type.num_questions}" %></td>
+        <tr class="scores">
+          <td class="col1"><%= link_to score.quiz_type.name, quiz_type_path(score.quiz_type_id) %></td>
+          <td class="col2"><%= score.quiz_type.level %></td>
+          <td class="col2"><%= score.quiz_type.difficulty %></td>
+          <td class="col3"><%= "#{score.score} / #{score.quiz_type.num_questions}" %></td>
+          <td class="col3"><%= score.fastest_time ? format_time(score.fastest_time) : "-"  %></td>
         </tr>
       <% end %>
     </table>

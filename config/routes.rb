@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   root 'chem_pages#home'                            # main page
   get '/quiz', to: 'quizzes#show'                   # current quiz for user or redirects to choose quiz if none
   patch '/quiz', to: 'quizzes#update'               # answers questions on a quiz
-  get '/quiz_index', to: 'quizzes#index'            # index of quizzes - admin
   get '/quiz_view/:id', to: 'quizzes#view',         # show selected quiz - admin
                         as: :quiz_view
   get '/help', to: 'chem_pages#help'                # help page
@@ -18,6 +17,7 @@ Rails.application.routes.draw do
                             :edit,                  # form to edit current user
                             :update,                # post to update current user
                             :destroy ]              # deletes user - admin
+  resources :quizzes, only: [ :index ]              # index of quizzes - admin
   resources :questions, only: [ :index,             # shows all questions - admin
                                 :show ]             # shows a question - admin
   resources :account_activations, only: [ :edit ]   # link to activate account
