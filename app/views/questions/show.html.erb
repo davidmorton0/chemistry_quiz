@@ -1,16 +1,16 @@
 <% provide(:title, "Question #{@question.id}") %>
 
 <p>
-  <strong>Question ID:</strong><%= @question.id %>
+  <span id="question_info">Question ID:</span> <%= @question.id %>
 </p>
 <p>
-  <strong>Quiz ID:</strong><%= @question.quiz_id %>
+  <span id="question_info">Quiz ID:</span> <%= @question.quiz_id %>
 </p>
 <p>
-  <strong>Prompt:</strong><%= @question.prompt %>
+  <span id="question_info">Prompt:</span> <%= @question.prompt %>
 </p>
 <p>
-  <strong>Answers:</strong>
+  <span id="question_info">Answers:</span>
 </p>
 
 <ul class="answer">
@@ -20,19 +20,19 @@
 </ul>
 
 <p>
-  <strong>Correct Answer:</strong><%= @question.correct_answer %>
+  <span id="question_info">Correct Answer:</span> <%= @question.correct_answer %>
 </p>
 <p>
-  <strong>Answered:</strong><%= @question.answered %>
+  <span id="question_info">Answered:</span> <%= @question.answered %>
 </p>
 <p>
-  <strong>Chosen Answer:</strong><%= @question.chosen_answer %>
+  <span id="question_info">Chosen Answer:</span> <%= @question.chosen_answer %>
 </p>
 <p>
-  <strong>Created:</strong><%= @question.created_at %>
+  <span id="question_info">Created:</span> <%= @question.created_at %>
 </p>
 <p>
-  <strong>Updated:</strong><%= @question.updated_at %>
+  <span id="question_info">Updated:</span> <%= @question.updated_at %>
 </p>
 
 <%= link_to "Back", questions_path %>

@@ -1,9 +1,11 @@
 <div class="grid-item" id="question">
   <div class="prompt">
-    <p ><strong><%= index + 1 %>. <%= question.prompt %></strong></p>
+    <p><strong><%= index + 1 %>. <%= question.prompt %></strong></p>
   </div>
-  <% question.answers.each do |answer| %>
-    <%= render partial: "answer", locals: {question: question, answer: answer, f: f} %>
-  <% end %>
-  <%= f.button "Answer", disabled: question.answered, name: "submit", value: question.id %>
+  <div class="answerbox">
+    <% question.answers.sort.each do |answer| %>
+      <%= render partial: "answer", locals: {question: question, answer: answer, f: f} %>
+    <% end %>
+  </div>
+    <%= f.button "Answer", disabled: question.answered, name: "submit", value: question.id, class: "answer" %>
 </div>

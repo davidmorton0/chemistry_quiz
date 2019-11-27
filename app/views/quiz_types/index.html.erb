@@ -6,16 +6,25 @@
   <div class="col-md-12">
       <%= will_paginate %>
       <table class="choosequiztable">
+        <colgroup>
+          <col class="qt_column1">
+          <col class="qt_column2">
+          <col class="qt_column3">
+          <col class="qt_column3">
+          <col class="qt_column3">
+        </colgroup>  
         <tr>
           <th>Quiz Name</th>
+          <th>Description</th>
           <th>Level</th>
           <th>Difficulty</th>
           <th>Number of Questions</th>
         </tr>
     
         <% @quiz_types.each do |quiz_type| %>
-          <tr>
+          <tr class="quiz_type">
             <td><%= link_to quiz_type.name, quiz_type_path(quiz_type.id) %></td>
+            <td><%= quiz_type.description %></td>
             <td><%= quiz_type.level %></td>
             <td><%= quiz_type.difficulty %></td>
             <td><%= quiz_type.num_questions %></td>

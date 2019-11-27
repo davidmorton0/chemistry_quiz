@@ -8,8 +8,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
-    redirect_to root_url and return unless @user.activated?
+    if current_user.admin?
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+      redirect_to root_url and return unless @user.activated?
+    end
     @scores = @user.scores.sort_by {|score| [score.quiz_type.name, score.quiz_type.level] }
   end
   

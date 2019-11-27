@@ -18,7 +18,7 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
     assert_no_match '\u{2714}️', response.body
     assert_no_match '\u{274C}️', response.body
     assert_select "div.radio#correct", 0
-    assert_select "div.radio#incorrect", @quiz.answers.count
+    assert_select "div.radio#unanswered", @quiz.answers.count
   end
 
   test "should answer a question correctly" do
@@ -57,7 +57,7 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
                               "id"=>@quiz.id}, xhr: true
     get quiz_path
     assert_select "div.radio#correct", count: 1
-    assert_no_match /\u{2714}/, response.body
+    assert_no_match (/\u{2714}/), response.body
     #assert_select "div.radio#incorrect", '\u{274C}' count: 1
     assert_no_difference '@quiz.score' do
       @quiz.reload
@@ -79,9 +79,10 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
                               "id"=>@quiz.id}, xhr: true
     get quiz_path
     assert_select "div.radio#correct", 1
-    assert_select "div.radio#incorrect", @quiz.answers.count - 1
-    assert_no_match /[\u{2714}]️/, response.body
-    assert_no_match /[\u{274C}]/, response.body
+    assert_select "div.radio#incorrect", @question.answers.count - 1
+    assert_select "div.radio#unanswered", @quiz.answers.count - @question.answers.count
+    assert_no_match (/[\u{2714}]/), response.body
+    assert_no_match (/[\u{274C}]/), response.body
     assert_no_difference '@quiz.score' do
       @quiz.reload
     end

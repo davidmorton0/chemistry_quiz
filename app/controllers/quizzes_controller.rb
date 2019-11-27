@@ -1,11 +1,8 @@
 class QuizzesController < ApplicationController
+  before_action :admin_user, only: [:index, :view]
   
   def index
-    if current_user.admin?
-      @quizzes = Quiz.paginate(page: params[:page], per_page: 5)
-    else
-      redirect_to root_path
-    end
+    @quizzes = Quiz.paginate(page: params[:page], per_page: 5)
   end
   
   def show
@@ -16,6 +13,7 @@ class QuizzesController < ApplicationController
         redirect_to quiz_types_path
       else
         @score = Score.find_by(user_id: user, quiz_type_id: @quiz.quiz_type)
+        @quiz_types = QuizType.where(name: @quiz.quiz_type.name)
       end
     else
       flash[:danger] = 'Log in to do a quiz'
@@ -25,12 +23,9 @@ class QuizzesController < ApplicationController
   
   #show any quiz as admin
   def view
-    if current_user.admin?
-      @quiz = Quiz.find(params[:id])
-      render 'show'
-    else
-      redirect_to root_path
-    end
+    @quiz = Quiz.find(params[:id])
+    @quiz_types = QuizType.where(name: @quiz.quiz_type.name)
+    render 'show'
   end
   
   def update
@@ -50,7 +45,9 @@ class QuizzesController < ApplicationController
           .select{|question| !question.answered}
           .length == 0
         @quiz.reload
-        flash[:info] = "New High Score!" if @quiz.update_high_score
+        new_scores = @quiz.update_high_score
+        flash[:info] = "New High Score!" if new_scores[0]
+        flash[:info] = "New Fastest Time!" if new_scores[1]
     end
     
     respond_to do |format|
@@ -58,4 +55,11 @@ class QuizzesController < ApplicationController
     end
     
   end
+  
+  private
+  
+    # Confirms an admin user.
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
 end

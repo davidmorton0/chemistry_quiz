@@ -1,5 +1,4 @@
 module SymbolQuiz
-  include ChemData
   
   ELEMENTS = 118
   ANSWERS = 4

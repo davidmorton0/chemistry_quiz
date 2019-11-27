@@ -52,7 +52,7 @@ form.question {
 
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 33.3% 33.3% 33.3%;
   grid-gap: 5px;
   background-color: LightBlue;
   padding: 5px;
@@ -64,9 +64,23 @@ form.question {
   padding: 0.8em;
 }
 
+.grid-item {
+  position: relative;
+}
+
 button.answerall {
   margin: 1em auto;
   display: block;
+}
+
+button.answer {
+  position: absolute;
+  bottom: 0.5em;
+}
+
+div.answerbox {
+  display: block;
+  margin-bottom: 2.5em;
 }
 
 .alert-info {
@@ -91,5 +105,5 @@ div.radio {
 }
 
 div.prompt {
-  height: 3.8em;
+  
 }
