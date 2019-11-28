@@ -1,0 +1,42 @@
+<% provide(:title, "High Scores") %>
+
+<h1>High Scores</h1>
+
+<%= will_paginate @quiz_types %>
+
+<div class="row">
+  <div class="col-md-12">
+      <table class="highscoretable">
+        <colgroup>
+          <col class="hs_column1">
+          <col class="hs_column2">
+          <col class="hs_column3">
+          <col class="hs_column3">
+          <col class="hs_column3">
+          <col class="hs_column3">
+        </colgroup>  
+        <tr>
+          <th>Quiz</th>
+          <th>Level</th>
+          <th>Difficulty</th>
+          <th>High Score</th>
+          <th>Fastest time</th>
+          <th>User</th>
+        </tr>
+    
+        <% @quiz_types.each do |quiz_type| %>
+          <% score_info = high_score(quiz_type) %>
+          <tr class="highscores">
+            <td class="col1"><%= link_to quiz_type.name, quiz_type_path(quiz_type.id) %></td>
+            <td class="col2"><%= quiz_type.level %></td>
+            <td class="col2"><%= quiz_type.difficulty %></td>
+            <td class="col2"><%= score_info[0] %></td>
+            <td class="col2"><%= score_info[1] %></td>
+            <td class="col3"><%= score_info[2] %></td>
+          </tr>
+        <% end %>
+      </table>
+  </div>
+</div>
+
+<%= will_paginate @quiz_types %>
