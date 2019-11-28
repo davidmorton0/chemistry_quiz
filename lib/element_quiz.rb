@@ -22,7 +22,7 @@ module ElementQuiz
     element = ChemData::Element[question_index]
     correct_answer = element[:Name]
     
-    elements = ChemData::Element.map { |e| e[:Name] } + ChemData::FakeElements - [correct_answer]
+    elements = ChemData::Element.map { |e| e[:Name] } + ChemData::FAKENAMES - [correct_answer]
     elements_same_letter = elements.select {|e| e.match(element[:Symbol][0]) }
     elements_different_letter = elements - elements_same_letter
     n = [rand(4), elements_same_letter.length].min

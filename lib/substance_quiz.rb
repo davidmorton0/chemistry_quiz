@@ -1,36 +1,58 @@
 module SubstanceQuiz
 
   def make_substance_quiz(quiz_type, quiz_id)
-=begin
-    if quiz_type.level == 1
-      question_index = [0, 1, 2, 5, 6, 7, 8, 9, 10, 11]
-    elsif quiz_type.level == 2
-      question_index = (0..29).to_a
-    elsif quiz_type.level == 3
-      question_index = (0..ELEMENTS - 1).to_a
-    end
-=end
     num_questions = quiz_type.num_questions
-    questions = (0..ChemData::SUBSTANCE.length - 1).to_a.shuffle.take(num_questions)
-    
+
+    if quiz_type.level == 1
+      questions = (0..ChemData::SUBSTANCE.length - 1).to_a.shuffle.take(num_questions)
+    end
+
     (0..1).each do |x|
       bonding_question(quiz_id, questions[x])
     end
-    
     (2..3).each do |x|
       state_question(quiz_id, questions[x])
     end
-    
     (4..5).each do |x|
       colour_question(quiz_id, questions[x])
     end
-    
-    (6..9).each do |x|
+    (6..7).each do |x|
       formula_question(quiz_id, questions[x])
+    end
+    (8..9).each do |x|
+      substance_name_question(quiz_id, questions[x])
     end
   end
   
   #what name
+  def substance_name_question(quiz_id, question_index)
+    substance = ChemData::SUBSTANCE[question_index]
+    correct_answer = substance[:name]
+    
+    substances = ChemData::SUBSTANCE.map { |s| s[:name] } + ChemData::FAKENAMES - [correct_answer]
+    substances_same_letter = (substances.select {|s| s.match(substance[:name][0])} + substances.select {|s| s.match(substance[:formula][0])}).uniq
+    substances_different_letter = substances - substances_same_letter
+    n = [rand(4), substances_same_letter.length].min
+    answers = substances_same_letter.shuffle.take(n) + substances_different_letter.shuffle.take(3 - n) + [correct_answer]
+    answers.shuffle!
+    
+    question = Question.new(
+      prompt: "What is the name of the substance with the formula #{substance[:formula]}?",
+      correct_answer: correct_answer,
+      quiz_id: quiz_id,
+      answered: false
+    )
+    question.save
+    
+    (0..3).each do |a|
+      answer = Answer.new
+      answer.text = answers[a]
+      answer.question = question
+      answer.save
+    end
+    
+    return question
+  end
   
   #what type of bonding
   def bonding_question(quiz_id, question_index)

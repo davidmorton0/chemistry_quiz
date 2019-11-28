@@ -16,6 +16,21 @@ class SubstanceQuizTest < ActionDispatch::IntegrationTest
     end
   end
   
+  test "should make substance name question" do
+    quiz = Quiz.new
+    question = quiz.substance_name_question(200, 19)
+    assert_equal question.prompt, "What is the name of the substance with the formula H2O?"
+    assert_equal question.correct_answer, "Water"
+    assert_equal question.quiz_id, 200
+    assert_equal question.answered, false
+    assert_equal question.answers.map { |answer| answer.text }.uniq.length, 4
+    assert_equal question.answers.select { |answer| answer.text == question.correct_answer }.length, 1
+    question.answers do |answer|
+      assert_match (/[A-Z][a-z]+/), answer.text
+      assert_equal question.id, answer.question_id
+    end
+  end
+  
   test "should make bonding type question" do
     quiz = Quiz.new
     question = quiz.bonding_question(200, 19)

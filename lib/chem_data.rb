@@ -1181,7 +1181,7 @@ module ChemData
       Description: 'Metalloid'
     },
   ]
-  FakeElements = [
+  FAKENAMES = [
     "Acoustium",
     "Adamantine",
     "Adamantite",
@@ -1290,8 +1290,10 @@ module ChemData
     "Kairoseki",
     "Katchin",
     "Kingon",
+    "Kironide",
     "Kryptonite",
     "Laconia",
+    "Latinum",
     "Lerasium",
     "Lux",
     "Maclarium",
@@ -1315,6 +1317,7 @@ module ChemData
     "Necrogen",
     "Necronium",
     "Neoteutonium",
+    "Neutronium",
     "Neutrotope",
     "Nitrium",
     "Nocxium",
@@ -1329,6 +1332,7 @@ module ChemData
     "Oxyale",
     "Oz",
     "Padillium",
+    "Pergium",
     "Phazon",
     "Philosophon",
     "Philote",

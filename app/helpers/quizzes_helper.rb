@@ -15,6 +15,10 @@ module QuizzesHelper
     question.prompt.match("What is the chemical formula") ? format_formula(answer.text) : answer.text
   end
   
+  def questiontext(prompt)
+    prompt.match("What is the name of the substance with the formula") ? format_formula(prompt) : prompt
+  end
+  
   def format_formula(formula)
     formula.gsub(/(\d+)/, '<sub>\1</sub>')
   end
