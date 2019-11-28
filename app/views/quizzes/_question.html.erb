@@ -1,6 +1,6 @@
 <div class="grid-item" id="question">
   <div class="prompt">
-    <p><strong><%= index + 1 %>. <%= question.prompt %></strong></p>
+    <p><strong><%= index + 1 %>. <%= raw(questiontext(question.prompt)) %></strong></p>
   </div>
   <div class="answerbox">
     <% question.answers.sort.each do |answer| %>
