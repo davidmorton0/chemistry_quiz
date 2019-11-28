@@ -5,6 +5,7 @@ questions
 - show/view paths for quizzes
 - testing
 - escaping html from functions e.g. quiz formulas
+- sorting data heroku vs aws
 
 to do
 - substance quiz levels

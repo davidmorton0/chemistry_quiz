@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   
   def index
     if current_user.admin?
-      @questions = Question.paginate(page: params[:page], per_page: 5)
+      @questions = Question.paginate(page: params[:page], per_page: 20)
     else
       redirect_to root_path
     end
