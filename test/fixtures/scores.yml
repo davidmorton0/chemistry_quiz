@@ -9,3 +9,10 @@ two:
   quiz_type_id: 3
   score: 10
   fastest_time: 6000
+  
+<% 10.times do |n| %>
+score_<%= n %>:
+  quiz_type_id: <%= n %>
+  score: 3
+  user_id: 100
+<% end %>

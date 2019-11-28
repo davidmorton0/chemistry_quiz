@@ -7,6 +7,7 @@
   
   <h1 class="maintitle">Chemistry Quiz</h1>
   
+  <%= link_to "High Scores", scores_path, class: "btn btn-lg btn-primary home" %>
   <% if logged_in? %>
   
     <%= link_to "Start a new quiz", quiz_types_path, class: "btn btn-lg btn-primary home" %>

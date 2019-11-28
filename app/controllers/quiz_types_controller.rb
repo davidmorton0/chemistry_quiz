@@ -12,7 +12,7 @@ class QuizTypesController < ApplicationController
       @quiz.make_new_quiz(@quiz_type, user.id)
       redirect_to quiz_path
     else
-      flash[:danger] = 'Log in to do a quiz'
+      flash_message :danger, 'Log in to do a quiz'
       redirect_to login_path
     end
   end
