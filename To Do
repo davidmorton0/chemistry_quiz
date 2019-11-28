@@ -1,11 +1,13 @@
 questions
 - database access optimisation - e.g. answer all questions together or simultaneously
+- performance tests?
 - javascript projects
+- show/view paths for quizzes
+- testing
+- escaping html from functions e.g. quiz formulas
 
-
-- database access optimisation - e.g. answer all questions together or simultaneously
-- change show/view paths for quizzes
-- substance name quiz
+to do
+- substance quiz levels
 - css refactor
 
 bugs
@@ -57,3 +59,4 @@ done
 - fastest score
 - global high scores - tests + links
 - flash - 2 messages
+- substance name quiz
