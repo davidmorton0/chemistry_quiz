@@ -15,6 +15,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_template partial: '_header', count: 1
     assert_select "header" do
       assert_select "a[href=?]", root_path, count: 2
+      assert_select "a[href=?]", scores_path, count: 1
       assert_select "a[href=?]", help_path, count: 1
       assert_select "a[href=?]", user_path(@user), count: 1
       assert_select "a[href=?]", "#", count: 2
@@ -23,7 +24,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
       assert_select "a[href=?]", questions_path, count: 1
       assert_select "a[href=?]", edit_user_path(@user), count: 1
       assert_select "a[href=?]", logout_path, count: 1
-      assert_select "a", count: 11
+      assert_select "a", count: 12
     end
   end
   
@@ -35,12 +36,13 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_template partial: '_header', count: 1
     assert_select "header" do
       assert_select "a[href=?]", root_path, count: 2
+      assert_select "a[href=?]", scores_path, count: 1
       assert_select "a[href=?]", help_path, count: 1
       assert_select "a[href=?]", user_path(@user), count: 1
       assert_select "a[href=?]", "#", count: 1
       assert_select "a[href=?]", edit_user_path(@user), count: 1
       assert_select "a[href=?]", logout_path, count: 1
-      assert_select "a", count: 7
+      assert_select "a", count: 8
     end
   end
   
@@ -51,9 +53,10 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_template partial: '_header', count: 1
     assert_select "header" do
       assert_select "a[href=?]", root_path, count: 2
+      assert_select "a[href=?]", scores_path, count: 1
       assert_select "a[href=?]", help_path, count: 1
       assert_select "a[href=?]", login_path, count: 1
-      assert_select "a", count: 4
+      assert_select "a", count: 5
     end
   end
 
@@ -76,9 +79,10 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_template partial: '_head', count: 1
     assert_template partial: '_shim', count: 1
     assert_select "div.center" do
+      assert_select "a[href=?]", scores_path, count: 1
       assert_select "a[href=?]", quiz_types_path, count: 1
       assert_select "a[href=?]", quiz_path, count: 1
-      assert_select "a", count: 2
+      assert_select "a", count: 3
     end
   end
   
@@ -89,8 +93,9 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_template partial: '_head', count: 1
     assert_template partial: '_shim', count: 1
     assert_select "div.center" do
+      assert_select "a[href=?]", scores_path, count: 1
       assert_select "a[href=?]", signup_path, count: 1
-      assert_select "a", count: 1
+      assert_select "a", count: 2
     end
   end
 end

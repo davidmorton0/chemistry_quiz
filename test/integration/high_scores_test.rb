@@ -63,12 +63,12 @@ class HighScoresTest < ActionDispatch::IntegrationTest
   test "should create high score if none" do
     Score.find(@score.id).destroy
     answer_all_questions_correctly(@quiz)
-                            
+
     #check response on page
     get quiz_path
     num_questions = @quiz_type.num_questions
     assert_match "You scored: #{num_questions}/#{num_questions}", response.body
-    assert_not flash.empty?
+    assert_match "New High Score!", flash[:info]
     
     #check high score updated
     get user_path(@user)
@@ -88,6 +88,7 @@ class HighScoresTest < ActionDispatch::IntegrationTest
   test "should create high score if none and score = 0 without flash" do
     Score.find(@score.id).destroy
     answer_all_questions_incorrectly(@quiz)
+    
     get quiz_path
     num_questions = @quiz_type.num_questions
     assert_match "You scored: 0/#{num_questions}", response.body
@@ -120,7 +121,7 @@ class HighScoresTest < ActionDispatch::IntegrationTest
     
     #check response on page
     get quiz_path
-    assert_not flash.empty?
+    assert_equal "New Fastest Time!", flash[:info]
     assert_changes '@score.fastest_time' do
       @score.reload
     end
@@ -140,7 +141,8 @@ class HighScoresTest < ActionDispatch::IntegrationTest
     
     #check response on page
     get quiz_path
-    assert_not flash.empty?
+    assert_match "New High Score!", flash[:info]
+    assert_match "New Fastest Time!", flash[:info]
     @score.reload
     assert_not_nil @score.fastest_time
   end

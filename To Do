@@ -1,8 +1,11 @@
+questions
+- database access optimisation - e.g. answer all questions together or simultaneously
+- javascript projects
+
+
 - database access optimisation - e.g. answer all questions together or simultaneously
 - change show/view paths for quizzes
-- global high scores
 - substance name quiz
-- flash - 2 messages
 - css refactor
 
 bugs
@@ -10,7 +13,6 @@ bugs
 - questions change when clicking new quiz
 
 done
-
 - remove num_questions from quiz model
 - quiz difficulty
 - quiz results
@@ -53,3 +55,5 @@ done
 - quiz description
 - high score test refactor
 - fastest score
+- global high scores - tests + links
+- flash - 2 messages

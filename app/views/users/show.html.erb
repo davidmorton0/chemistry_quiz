@@ -26,7 +26,7 @@
           <td class="col2"><%= score.quiz_type.level %></td>
           <td class="col2"><%= score.quiz_type.difficulty %></td>
           <td class="col3"><%= "#{score.score} / #{score.quiz_type.num_questions}" %></td>
-          <td class="col3"><%= score.fastest_time ? format_time(score.fastest_time) : "-"  %></td>
+          <td class="col3"><%= format_time(score.fastest_time) %></td>
         </tr>
       <% end %>
     </table>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/scores'  , to: 'scores#index'               # global high scores
   root 'chem_pages#home'                            # main page
   get '/quiz', to: 'quizzes#show'                   # current quiz for user or redirects to choose quiz if none
   patch '/quiz', to: 'quizzes#update'               # answers questions on a quiz

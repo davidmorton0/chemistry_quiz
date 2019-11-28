@@ -29,7 +29,8 @@ class QuizzesController < ApplicationController
   end
   
   def update
-      #answer questions
+    
+    #answer questions
     @quiz = current_user.quiz
     if params[:submit] == "all"
       @quiz.questions.each do |question|
@@ -40,14 +41,19 @@ class QuizzesController < ApplicationController
         .find(params[:submit])
         .answer_question(params[:quiz] ? params[:quiz][params[:submit]] : nil)
     end
-      #update high score if quiz finished
-    if  @quiz.questions
+    
+    #update high score if quiz finished
+    if @quiz.questions
           .select{|question| !question.answered}
           .length == 0
         @quiz.reload
         new_scores = @quiz.update_high_score
-        flash[:info] = "New High Score!" if new_scores[0]
-        flash[:info] = "New Fastest Time!" if new_scores[1]
+        message = []
+        message.push("New High Score!") if new_scores[0]
+        message.push("New Fastest Time!") if new_scores[1]
+        if !message.empty?
+          flash[:info] = message.join("\n")
+        end
     end
     
     respond_to do |format|
@@ -60,6 +66,6 @@ class QuizzesController < ApplicationController
   
     # Confirms an admin user.
     def admin_user
-      redirect_to(root_url) unless current_user.admin?
+      redirect_to(root_url) unless current_user && current_user.admin?
     end
 end
