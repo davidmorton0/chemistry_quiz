@@ -11,16 +11,27 @@ module QuizzesHelper
     answer.text == question.chosen_answer
   end
   
+  def format_formula(formula)
+    formula.gsub(/(\d+)/, '<sub>\1</sub>')
+  end
+  
+  def show_high_score(quiz)
+    show_high_score = Score.find_by(user_id: quiz.user, quiz_type_id: quiz.quiz_type)
+    show_high_score ? show_high_score : ""
+  end
+  
   def labeltext(question, answer)
-    question.prompt.match("What is the chemical formula") ? format_formula(answer.text) : answer.text
+    question
+      .prompt
+      .match("What is the chemical formula") ? format_formula(answer.text) : answer.text
   end
   
   def questiontext(prompt)
     prompt.match("What is the name of the substance with the formula") ? format_formula(prompt) : prompt
   end
   
-  def format_formula(formula)
-    formula.gsub(/(\d+)/, '<sub>\1</sub>')
+  def similar_quizzes(quiz_type)
+    QuizType.where(name: @quiz.quiz_type.name)
   end
   
   def score(quiz)
