@@ -3,9 +3,7 @@ require 'test_helper'
 class QuizGenerationTest < ActionDispatch::IntegrationTest
 
   test "gets question data" do
-    quiz = Quiz.new
-    question = Question.new
-    question = quiz.symbol_question(100, 90)
+    question = SymbolQuiz.new(quiz_types(:one), 100).symbol_question(100, 90)
     assert_not_empty question.prompt
     assert_equal question.answered, false
     assert_not_nil question.correct_answer, false

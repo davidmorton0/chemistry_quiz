@@ -1,0 +1,25 @@
+<div class="col-sm-4" id="score">   
+  <p class="score">
+    <%= score(@quiz) %>
+  </p>
+  
+  <p class="info">
+    Your High Score: <%= show_high_score(@quiz) %>
+  </p>
+  
+  <p class="<%= "info l#{@quiz.quiz_type.level}" %>">
+    Level: <%= @quiz.quiz_type.level %>
+  </p>
+</div>
+
+<div class="col-sm-4" id="quizname">
+  <h1><%= @quiz.quiz_type.name %></h1>
+</div>
+
+<div class="col-sm-4" id="startagain">
+  <%= link_to "Start again", quiz_type_path(@quiz.quiz_type), class: "btn btn-lg btn-primary quiz" %>
+  <%= link_to "Choose a new quiz", quiz_types_path, class: "btn btn-lg btn-primary quiz" %>
+  <% similar_quizzes(@quiz).each do |quiz_type| %>
+    <%= render partial: "quiz_button", locals: {quiz_type: quiz_type} %>
+  <% end %>
+</div>

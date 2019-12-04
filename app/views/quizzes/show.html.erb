@@ -1,30 +1,7 @@
 <% provide(:title, 'Quiz') %>
 <div id="container">
   <div class="row">
-    
-    <div class="col-sm-4" id="score">   
-      <p class="score">
-        <%= score(@quiz) %>
-      </p>
-      <p class="info">
-          Your High Score: <%= @score ? @score.score : 0 %>
-      </p>
-      <p class="<%= "info l#{@quiz.quiz_type.level}" %>">
-          Level: <%= @quiz.quiz_type.level %>
-      </p>
-    </div>
-    
-    <div class="col-sm-4" id="quizname">
-      <h1><%= @quiz.quiz_type.name %></h1>
-    </div>
-    
-    <div class="col-sm-4" id="startagain">
-      <%= link_to "Start again", quiz_type_path(@quiz.quiz_type), class: "btn btn-lg btn-primary quiz" %>
-      <%= link_to "Choose a new quiz", quiz_types_path, class: "btn btn-lg btn-primary quiz" %>
-      <% @quiz_types.each do |quiz_type| %>
-        <%= link_to "Level #{quiz_type.level}", quiz_type_path(quiz_type.id), class: "btn btn-lg btn-primary level l#{quiz_type.level}" %>
-      <% end %>
-    </div>
+    <%= render 'info' %>
   </div>
   
   <%= form_with model: @quiz, method: "patch", html: {class: "question", name: @quiz.created_at} do |f| %>

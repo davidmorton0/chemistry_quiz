@@ -46,3 +46,13 @@ quiz7 = QuizType.create!(name: "Substance Properties Quiz",
                 difficulty: 2,
                 description: "Choose the correct property for a range of
                 substances.")
+
+quiz8 = QuizType.create!(name: "Mole Calculation Quiz",
+                level: 1,
+                num_questions: 10,
+                difficulty: 2,
+                description: "Calculate the number of moles of atoms of different elements.")
+                
+                
+                
+                

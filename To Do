@@ -1,6 +1,7 @@
 questions
 - database access optimisation - e.g. answer all questions together or simultaneously
-- performance tests?
+- key indexing
+- performance tests
 - javascript projects
 - show/view paths for quizzes
 - testing
@@ -10,6 +11,9 @@ questions
 to do
 - substance quiz levels
 - css refactor
+- question hints
+- question help
+- moles quiz
 
 bugs
 - firefox doesn't remember radio buttons on first answer
@@ -61,3 +65,11 @@ done
 - global high scores - tests + links
 - flash - 2 messages
 - substance name quiz
+
+- system tests - browser tests
+- refactor & object extraction + unit tests
+- sandi metz: practical object oriented design in ruby 
+- sandi metz: 99 bottles of OOP
+- domain driven design
+- pyramid of testing
+- silicon milk roundabout - job fair
