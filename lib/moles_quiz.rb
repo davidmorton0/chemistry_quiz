@@ -3,7 +3,7 @@ module MolesQuiz
   ELEMENTS = 118
   ANSWERS = 4
   
-  def make_moles_quiz(quiz_type, quiz_id)
+  def self.make_moles_quiz(quiz_type, quiz_id)
     if quiz_type.level == 1
       question_index = [0, 1, 2, 5, 6, 7, 8, 9, 10, 11]
     elsif quiz_type.level == 2
@@ -18,8 +18,8 @@ module MolesQuiz
     end
   end
   
-  def moles_question(quiz_id, question_index)
-    element = ChemData::Element[question_index]
+  def self.moles_question(quiz_id, question_index)
+    element = ChemData::ELEMENT[question_index]
     correct_answer = (rand() * 10).round(1)
     mass = (correct_answer * element[:Ar]).round(1)
 
