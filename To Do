@@ -18,6 +18,7 @@ to do
 bugs
 - firefox doesn't remember radio buttons on first answer
 - questions change when clicking new quiz
+- click on quiz from high score when logged out
 
 done
 - remove num_questions from quiz model

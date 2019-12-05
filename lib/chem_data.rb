@@ -1,5 +1,5 @@
-module ChemData
-  Element = [
+class ChemData
+  ELEMENT = [
     {
       Ar: 1,
       Name: 'Hydrogen',
