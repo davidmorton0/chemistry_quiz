@@ -1,9 +1,4 @@
 class Quiz < ApplicationRecord
-  include ChemData
-  include ElementQuiz
-  include SubstanceQuiz
-  include MolesQuiz
-  
   belongs_to :quiz_type
   belongs_to :user
   has_many :questions, :dependent => :destroy
@@ -27,6 +22,16 @@ class Quiz < ApplicationRecord
                 user_id: user_id,
                 score: 0)
     QuizSelector.new(quiz_type, self)
+  end
+  
+  def make_question(question_info)
+    question = Question.new(
+      prompt: question_info[:prompt],
+      correct_answer: question_info[:correct_answer],
+      quiz_id: id,
+      answered: false )
+    question.save
+    question.make_answers(question_info[:answers])
   end
   
   def update_high_score()

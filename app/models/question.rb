@@ -15,4 +15,13 @@ class Question < ApplicationRecord
       Quiz.increment_counter(:score, self.quiz.id) if self.chosen_answer == self.correct_answer
     end
   end
+  
+  def make_answers(answers)
+    answers.each do |answer|
+      Answer.new(
+        text: answer,
+        question: self
+        ).save
+    end
+  end
 end
