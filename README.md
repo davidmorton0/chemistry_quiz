@@ -2,6 +2,8 @@
 
 A Chemistry quiz website for students taking A-level Chemistry written using Ruby on Rails
 
+A production version can be found at: https://shocking-zombie-04284.herokuapp.com/
+
 ## Features
 
 - Randomly generated quizzes on:
