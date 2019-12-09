@@ -1,6 +1,6 @@
 # README
 
-A Chemistry quiz website for students taking A-level Chemistry
+A Chemistry quiz website for students taking A-level Chemistry written using Ruby on Rails
 
 ## Features
 
