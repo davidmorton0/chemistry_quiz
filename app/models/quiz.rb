@@ -35,30 +35,6 @@ class Quiz < ApplicationRecord
   end
   
   def update_high_score()
-    message = []
-    if questions
-          .select{|question| !question.answered}
-          .length == 0
-          
-      high_score = Score.find_by(quiz_type_id: quiz_type_id, user_id: user_id)
-      if !high_score
-        high_score = Score.create!(
-          score: score,
-          quiz_type_id: quiz_type_id,
-          user_id: user_id
-        )
-        message = ["New High Score!"] if score > 0
-      elsif score > high_score.score
-        high_score.update(score: score)
-        message = ["New High Score!"]
-      end
-      
-      new_time = Time.now - created_at
-      if score == quiz_type.num_questions && (!message.empty? || new_time < high_score.fastest_time)
-        high_score.update(fastest_time: new_time)
-        message.push("New Fastest Time!")
-      end
-    end
-    return message.join("\n")
+    HighScoreUpdater.new(self).call.join("\n")
   end
 end

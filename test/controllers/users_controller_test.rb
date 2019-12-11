@@ -3,8 +3,11 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   
   def setup
-    @admin = users(:michael)
-    @non_admin = users(:archer)
+    @admin = create(:admin)
+    @non_admin = create(:user)
+  end
+  
+  test "should redirect to login if attempt to logout when not logged in" do
   end
   
   test "should redirect from index to login when not logged in" do
@@ -29,26 +32,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   
   test "should get other user when logged in as admin" do
     log_in_as(@admin)
-    get user_path(User.second)
+    get user_path(@non_admin)
     assert_response :success
-    assert_select "h1", User.second.name
+    assert_select "h1", @non_admin.name
   end
   
   test "should not get other user when not logged in as admin" do
     log_in_as(@non_admin)
-    get user_path(User.second)
+    get user_path(@admin)
     assert_response :success
     assert_select "h1", @non_admin.name
   end
   
   test "should show user" do
-    @user = users[1]
-    post login_path, params: { session: { email:    @user.email,
-                                          password: 'password' } }
-    get user_path(@user)
+    log_in_as(@non_admin)
+    get user_path(@non_admin)
     assert_response :success
     assert_template "show"
-    assert_match @user.name, response.body
+    assert_match @non_admin.name, response.body
   end
   
   test "should get new" do

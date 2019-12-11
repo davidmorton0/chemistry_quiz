@@ -3,7 +3,10 @@ require 'test_helper'
 class QuestionTest < ActiveSupport::TestCase
   
   def setup
-    @question = Question.new(quiz_id: 5,
+    @quiz_type = create(:quiz_type)
+    @user = create(:user)
+    @quiz = create(:quiz)
+    @question = Question.new(quiz_id: @quiz.id,
                              prompt: "What time is it?",
                              correct_answer: "5pm",
                              answered: "false")
