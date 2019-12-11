@@ -3,8 +3,8 @@ require 'test_helper'
 class SiteLayoutTest < ActionDispatch::IntegrationTest
   
   def setup
-    @admin = users(:michael)
-    @non_admin = users(:archer)
+    @admin = create(:admin)
+    @non_admin = create(:user)
   end
   
   test "header links when logged in as admin" do

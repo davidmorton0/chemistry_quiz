@@ -5,6 +5,8 @@ require "minitest/reporters"
 Minitest::Reporters.use!
 
 class ActiveSupport::TestCase
+  include FactoryBot::Syntax::Methods
+  
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
 
@@ -26,7 +28,7 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-
+  
   # Log in as a particular user.
   def log_in_as(user, password: 'password', remember_me: '1')
     post login_path, params: { session: { email: user.email,
@@ -34,11 +36,7 @@ class ActionDispatch::IntegrationTest
                                           remember_me: remember_me } }
   end
   
-  def answer_all_questions_correctly(quiz)
-    answers = {}
-    quiz.questions.map{ |question| 
-      answers[question.id.to_s] = question.correct_answer
-    }
+  def answer_questions(quiz, answers)
     patch quiz_path, params: {
       "_method"=>"patch",
       "submit"=>"all",
@@ -49,13 +47,26 @@ class ActionDispatch::IntegrationTest
       "id"=>quiz.id}, xhr: true
   end
   
-  def answer_all_questions_incorrectly(quiz)
+  def answer_question(question, answer)
     patch quiz_path, params: {
       "_method"=>"patch",
-      "submit"=>"all",
-      "commit"=>"Answer All",
+      "submit"=>question.id,
+      "quiz"=>{question.id.to_s=>answer.to_s},
+      "commit"=>"Answer",
       "controller"=>"quizzes",
       "action"=>"update",
-      "id"=>@quiz.id}, xhr: true
+      "id"=>question.quiz.id}, xhr: true
+  end
+  
+  def answer_all_questions_correctly(quiz)
+    answers = {}
+    quiz.questions.map{ |question| 
+      answers[question.id.to_s] = question.correct_answer
+    }
+    answer_questions(quiz, answers)
+  end
+  
+  def answer_all_questions_incorrectly(quiz)
+    answer_questions(quiz, {})
   end
 end

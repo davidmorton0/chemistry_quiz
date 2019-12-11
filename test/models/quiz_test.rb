@@ -3,9 +3,11 @@ require 'test_helper'
 class QuizTest < ActiveSupport::TestCase
   
   def setup
+    @quiz_type = create(:quiz_type)
+    @user = create(:user)
     @quiz = Quiz.new( score: 0,
-                      user_id: 1,
-                      quiz_type_id: 1)
+                      user_id: @user.id,
+                      quiz_type_id: @quiz_type.id)
   end
   
   test "should be valid" do

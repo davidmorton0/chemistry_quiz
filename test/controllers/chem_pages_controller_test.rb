@@ -1,6 +1,10 @@
 require 'test_helper'
 class ChemPagesControllerTest < ActionDispatch::IntegrationTest
   
+  def setup
+    @user = create(:new_user)
+  end
+  
   test "should get home" do
     get root_path
     assert_response :success
@@ -8,7 +12,7 @@ class ChemPagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get help" do
-    log_in_as(users(:archer))
+    log_in_as(@user)
     get help_path
     assert_response :success
     assert_select "title", "Help#{base_title}"
