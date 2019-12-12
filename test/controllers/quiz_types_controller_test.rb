@@ -21,4 +21,14 @@ class QuizTypesControllerTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
     assert_redirected_to login_path
   end
+  
+  test "should create new quiz" do
+    @quiz = create(:new_quiz)
+    @user = @quiz.user
+    log_in_as(@user)
+    get quiz_type_path(@quiz.quiz_type.id)
+    assert_not_equal @quiz.created_at, @quiz.reload.created_at
+    assert flash.empty?
+    assert_redirected_to quiz_path
+  end
 end

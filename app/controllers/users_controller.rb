@@ -1,20 +1,21 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :profile]
   before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: [:index, :destroy]
+  before_action :admin_user,     only: [:index, :destroy, :show]
 
   def index
     @users = User.where(activated: true).paginate(page: params[:page], per_page: 10)
   end
 
   def show
-    if current_user.admin?
-      @user = User.find(params[:id])
-    else
-      @user = current_user
-      redirect_to root_url and return unless @user.activated?
-    end
+    @user = User.find(params[:id])
     @scores = @user.scores.sort_by {|score| [score.quiz_type.name, score.quiz_type.level] }
+  end
+  
+  def profile
+    @user = current_user
+    @scores = @user.scores.sort_by {|score| [score.quiz_type.name, score.quiz_type.level] }
+    render 'show'
   end
   
   def new
@@ -57,23 +58,9 @@ class UsersController < ApplicationController
                                    :password_confirmation)
     end
     
-    # Confirms a logged-in user.
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
-    
     # Confirms the correct user.
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
-    end
-    
-    # Confirms an admin user.
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
     end
 end

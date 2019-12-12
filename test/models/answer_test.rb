@@ -2,12 +2,7 @@ require 'test_helper'
 
 class AnswerTest < ActiveSupport::TestCase
   def setup
-    @quiz_type = create(:quiz_type)
-    @user = create(:user)
-    @quiz = create(:quiz)
-    @question = create(:question)
-    @answer = Answer.new(text: "C",
-                question_id: @question.id)
+    @answer = create(:new_answer)
   end
   
   test "should be valid" do
@@ -23,4 +18,5 @@ class AnswerTest < ActiveSupport::TestCase
     @answer.question = nil
     assert_not @answer.valid?
   end
+
 end

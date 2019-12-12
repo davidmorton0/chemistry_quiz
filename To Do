@@ -14,11 +14,12 @@ to do
 - question hints
 - question help
 - moles quiz
+- friendly forwarding test
+- active/inactive users on users index
 
 bugs
 - firefox doesn't remember radio buttons on first answer
 - questions change when clicking new quiz
-- click on quiz from high score when logged out
 
 done
 - remove num_questions from quiz model
@@ -66,11 +67,5 @@ done
 - global high scores - tests + links
 - flash - 2 messages
 - substance name quiz
-
-- system tests - browser tests
-- refactor & object extraction + unit tests
-- sandi metz: practical object oriented design in ruby 
-- sandi metz: 99 bottles of OOP
-- domain driven design
-- pyramid of testing
-- silicon milk roundabout - job fair
+- test submitting post requests to answer questions
+- fixed bug: click on quiz from high score when logged out

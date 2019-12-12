@@ -17,10 +17,8 @@ class Quiz < ApplicationRecord
     reload
   end
   
-  def make_new_quiz(quiz_type, user_id)
-    self.update(quiz_type_id: quiz_type.id,
-                user_id: user_id,
-                score: 0)
+  def make_new_quiz
+    self.update(score: 0)
     QuizSelector.new(quiz_type, self)
   end
   

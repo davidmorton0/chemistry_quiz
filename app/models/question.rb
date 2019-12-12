@@ -16,12 +16,4 @@ class Question < ApplicationRecord
     end
   end
   
-  def make_answers(answers)
-    answers.each do |answer|
-      Answer.new(
-        text: answer,
-        question: self
-        ).save
-    end
-  end
 end

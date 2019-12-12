@@ -36,7 +36,7 @@ class ActionDispatch::IntegrationTest
                                           remember_me: remember_me } }
   end
   
-  def answer_questions(quiz, answers)
+  def post_question_answers(quiz, answers)
     patch quiz_path, params: {
       "_method"=>"patch",
       "submit"=>"all",
@@ -47,7 +47,7 @@ class ActionDispatch::IntegrationTest
       "id"=>quiz.id}, xhr: true
   end
   
-  def answer_question(question, answer)
+  def post_question_answer(question, answer)
     patch quiz_path, params: {
       "_method"=>"patch",
       "submit"=>question.id,
@@ -63,10 +63,10 @@ class ActionDispatch::IntegrationTest
     quiz.questions.map{ |question| 
       answers[question.id.to_s] = question.correct_answer
     }
-    answer_questions(quiz, answers)
+    post_question_answers(quiz, answers)
   end
   
   def answer_all_questions_incorrectly(quiz)
-    answer_questions(quiz, {})
+    post_question_answers(quiz, {})
   end
 end
