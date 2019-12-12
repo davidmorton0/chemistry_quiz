@@ -10,6 +10,9 @@ FactoryBot.define do
     trait :admin do
       admin { true }
     end
+    trait :unactivated do
+      activated { false }
+    end
   end
   
   factory :new_quiz_type, class: QuizType do
@@ -98,6 +101,21 @@ FactoryBot.define do
         create_list :question_with_answers, 10, :correct, quiz: quiz
       end
     end
+    trait :with_score_5 do
+      after :create do |quiz|
+        create :score_5, quiz_type: quiz.quiz_type, user: quiz.user
+      end
+    end
+    trait :with_score_10_1m do
+      after :create do |quiz|
+        create :score_10_1m, quiz_type: quiz.quiz_type, user: quiz.user
+      end
+    end
+    trait :with_score_10_10m do
+      after :create do |quiz|
+        create :score_10_10m, quiz_type: quiz.quiz_type, user: quiz.user
+      end
+    end
   end
 
   factory :question_with_answers, class: Question do
@@ -128,5 +146,16 @@ FactoryBot.define do
   
   factory :wrong_answer, class: Answer do
     text { "No" }
+  end
+  factory :score_5, class: Score do
+    score { 5 }
+  end
+  factory :score_10_1m, class: Score do
+    score { 10 }
+    fastest_time { 60 }
+  end
+  factory :score_10_10m, class: Score do
+    score { 10 }
+    fastest_time { 600 }
   end
 end

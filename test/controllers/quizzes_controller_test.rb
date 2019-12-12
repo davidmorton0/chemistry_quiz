@@ -23,28 +23,20 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get current quiz" do
     log_in_as(@quiz.user)
-    assert_no_difference 'Quiz.count' do
-      get quiz_path
-      assert_response :success
-      assert_template "show"
-      assert_select "h1", @quiz.quiz_type.name
-    end
+    get quiz_path
+    assert_response :success
+    assert_template "show"
+    assert_select "h1", @quiz.quiz_type.name
   end
-
-  test "should start new quiz" do
-    @user = @quiz.user
-    log_in_as(@user)
-    assert_no_difference 'Quiz.count' do
-      get quiz_type_path(@quiz.quiz_type)
-      assert_redirected_to quiz_path
-      follow_redirect!
-      assert_template "show"
-      assert_select "h1", @quiz.quiz_type.name
-    end
-    assert_not_equal @user.quiz.created_at, @user.reload.quiz.created_at
+  
+  test "should redirect get quiz to login page for logged out user" do
+    delete logout_path
+    get quiz_path
+    assert_not flash.empty?
+    assert_redirected_to login_path
   end
-
-  test "should redirect from resume quiz to new quiz page for user without quiz" do
+  
+  test "should redirect to new quiz page for user without quiz" do
     log_in_as(@quiz.user)
     @quiz.destroy
     get quiz_path
@@ -62,21 +54,29 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     get quiz_view_path(@quiz.id)
     assert_redirected_to root_path
   end
-
-  test "should answer a question correctly and reload" do
+  
+  test "should redirect to login page if logged out and trying to answer a question" do
+    delete logout_path
+    @question = create(:new_question)
+    post_question_answer(@question, @question.correct_answer)
+    assert_not @question.reload.answered
+    assert_not flash.empty?
+  end  
+  
+  test "should answer a question and reload" do
     @question = create(:new_question)
     log_in_as(@question.quiz.user)
-    answer_question(@question, @question.correct_answer)
+    post_question_answer(@question, @question.correct_answer)
     assert @question.reload.answered
     assert_not flash.empty?
     assert_response :success
     assert_match (/location.reload/), response.body
   end
   
-  test "should answer all questions incorrectly and reload" do
+  test "should answer all questions and reload" do
     @quiz = create(:quiz_10_questions, :unanswered)
     log_in_as(@quiz.user)
-    answer_questions(@quiz, {})
+    post_question_answers(@quiz, {})
     @quiz.questions.each do |question|
       assert question.answered
     end

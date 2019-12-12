@@ -3,13 +3,7 @@ require 'test_helper'
 class QuestionTest < ActiveSupport::TestCase
   
   def setup
-    @quiz_type = create(:quiz_type)
-    @user = create(:user)
-    @quiz = create(:quiz)
-    @question = Question.new(quiz_id: @quiz.id,
-                             prompt: "What time is it?",
-                             correct_answer: "5pm",
-                             answered: "false")
+    @question = create(:new_question)
   end
   
   test "should be valid" do
@@ -35,5 +29,38 @@ class QuestionTest < ActiveSupport::TestCase
     @question.answered = ""
     assert_not @question.valid?
   end
+  
+  test "should answer a question correctly" do
+    assert_not @question.answered
+    assert_nil @question.chosen_answer
+    assert_difference '@question.quiz.score' do
+      @question.answer_question(@question.correct_answer)
+      @question.reload
+    end
+    assert @question.answered
+    assert_equal @question.chosen_answer, @question.correct_answer
+  end
+  
+  test "should answer a question incorrectly" do
+    assert_not @question.answered
+    assert_nil @question.chosen_answer
+    assert_no_difference '@question.quiz.score' do
+      @question.answer_question("Wrong")
+      @question.reload
+    end
+    assert @question.answered
+    assert_not_nil @question.chosen_answer
+  end
 
+  test "should not answer an answered question" do
+    @question.update(answered: true, chosen_answer: "Answer")
+    assert @question.answered
+    assert_not_nil @question.chosen_answer
+    assert_no_difference '@question.quiz.score' do
+      @question.answer_question(@question.correct_answer)
+      @question.reload
+    end
+    assert @question.answered
+    assert_not_equal @question.chosen_answer, @question.correct_answer
+  end
 end

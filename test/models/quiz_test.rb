@@ -3,11 +3,7 @@ require 'test_helper'
 class QuizTest < ActiveSupport::TestCase
   
   def setup
-    @quiz_type = create(:quiz_type)
-    @user = create(:user)
-    @quiz = Quiz.new( score: 0,
-                      user_id: @user.id,
-                      quiz_type_id: @quiz_type.id)
+    @quiz = create(:new_quiz)
   end
   
   test "should be valid" do
@@ -24,7 +20,9 @@ class QuizTest < ActiveSupport::TestCase
     assert_not @quiz.valid?
   end
   
-  test "score can't be less than 0" do
+  test "should have a score >= 0" do
+    @quiz.score = nil
+    assert_not @quiz.valid?
     @quiz.score = -1
     assert_not @quiz.valid?
   end

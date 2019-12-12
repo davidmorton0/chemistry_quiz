@@ -10,11 +10,12 @@ Rails.application.routes.draw do
   get '/contact', to: 'chem_pages#contact'          # contact page
   get  '/signup',  to: 'users#new'                  # sign up form for new users
   post '/signup',  to: 'users#create'               # posts to users to create new user then redirects to user page
+  get '/profile', to: 'users#profile'               # shows current user profile
   get    '/login',   to: 'sessions#new'             # login page
   post   '/login',   to: 'sessions#create'          # logs in
   delete '/logout',  to: 'sessions#destroy'         # logs out
   resources :users, only: [ :index,                 # index page of all users - admin
-                            :show,                  # shows a user - needs change to show current user only
+                            :show,                  # shows a user - admin
                             :edit,                  # form to edit current user
                             :update,                # post to update current user
                             :destroy ]              # deletes user - admin
