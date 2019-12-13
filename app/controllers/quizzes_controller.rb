@@ -23,7 +23,7 @@ class QuizzesController < ApplicationController
   def update
     #answer questions
     @quiz = current_user.quiz
-    @quiz.answer(params[:submit], params[:quiz])
+    @quiz.answer(params[:quiz])
     message = @quiz.update_high_score
 
     if !message.empty?

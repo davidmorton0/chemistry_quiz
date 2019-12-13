@@ -45,7 +45,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
   
   test "should not create session with non-activated user" do
-    @user = create(:new_user, :unactivated)
+    @user = create(:new_user, :not_activated)
     post login_path, params: { session: { email:    @user.email,
                                           password: 'password' } }
     assert_nil session[:user_id]

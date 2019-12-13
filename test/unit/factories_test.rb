@@ -53,6 +53,12 @@ class FactoriesTest < ActionDispatch::IntegrationTest
     assert user.admin
   end
   
+  test "should create a valid not activated user" do
+    user = create(:new_user, :not_activated)
+    assert user.valid?
+    assert_not user.activated
+  end
+  
   test "should create a 10 question, unanswered quiz, each question has 4 answers" do
     quiz = create(:quiz_10_questions, :unanswered)
     assert quiz.valid?

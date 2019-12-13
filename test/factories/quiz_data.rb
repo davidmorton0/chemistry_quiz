@@ -10,7 +10,7 @@ FactoryBot.define do
     trait :admin do
       admin { true }
     end
-    trait :unactivated do
+    trait :not_activated do
       activated { false }
     end
   end
@@ -89,12 +89,14 @@ FactoryBot.define do
         create_list :question_with_answers, 10, :unanswered, quiz: quiz
       end
     end
+    #answered incorrectly
     trait :incorrect do
       score { 0 }
       after :create do |quiz|
         create_list :question_with_answers, 10, :incorrect, quiz: quiz
       end
     end
+    #answered correctly
     trait :correct do
       score { 10 }
       after :create do |quiz|
