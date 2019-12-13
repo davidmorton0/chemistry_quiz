@@ -73,11 +73,13 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     assert_match (/location.reload/), response.body
   end
   
-  test "should answer all questions and reload" do
+  test "should answer all questions and reload page" do
     @quiz = create(:quiz_10_questions, :unanswered)
     log_in_as(@quiz.user)
-    post_question_answers(@quiz, {})
-    @quiz.questions.each do |question|
+    answers = {}
+    @quiz.questions.each{|question| answers[question.id.to_s] = ""}
+    post_question_answers(@quiz, answers)
+    @quiz.reload.questions.each do |question|
       assert question.answered
     end
     assert flash.empty?

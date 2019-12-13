@@ -4,13 +4,12 @@ class QuizTypesController < ApplicationController
   def index
     @quiz_types = QuizType.paginate(page: params[:page], per_page: 5)
   end
-  
+
   def show
     current_user.quiz&.destroy
-    Quiz.new(
-      quiz_type_id: params[:id].to_i,
-      user_id: current_user.id)
-        .make_new_quiz
+    QuizMaker.new(
+      current_user.id,
+      params[:id].to_i).make_new_quiz
     redirect_to quiz_path
   end
 end

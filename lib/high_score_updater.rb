@@ -22,7 +22,7 @@ class HighScoreUpdater
                         user_id: @quiz.user.id)
       end
       
-      if @quiz.score > @high_score.score
+      if @quiz.reload.score > @high_score.score
         high_score.update(score: @quiz.score)
         message = ["New High Score!"]
       end
