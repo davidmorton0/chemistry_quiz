@@ -1,6 +1,6 @@
-<div class="radio" id=<%= show_answered(question, answer) %>>
+<div class="radio" id=<%= show_answered(answer) %>>
   <%= f.radio_button question.id, answer.text, options = {
-    checked: checked(question, answer),
+    checked: checked?(answer),
     disabled: question.answered}  %>
-  <%= f.label question.id, raw("#{labeltext(question, answer)} #{check(question, answer)}"), value: answer.text %>  
+  <%= f.label question.id, raw("#{label_text(answer)} #{check(answer)}"), value: answer.text %>  
 </div>
