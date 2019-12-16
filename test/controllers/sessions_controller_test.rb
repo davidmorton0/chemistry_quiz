@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
+  include SessionsHelper
+  include ValidationMethods
 
   test "should get new" do
     get login_path
@@ -25,7 +27,30 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_nil @user.reload.remember_digest
     assert_redirected_to @user
   end
-
+  
+  test "should redirect to a stored location" do
+    @quiz = create(:new_quiz)
+    @user = @quiz.user
+    get quiz_path
+    assert_redirected_to login_path
+    assert_equal session[:forwarding_url], quiz_url
+    post login_path, params: { session: { email:    @user.email,
+                                          password: 'password'} }
+    assert_redirected_to quiz_path
+    assert_nil session[:forwarding_url]
+  end
+  
+  test "should redirect to a default location when no stored location" do
+    @quiz = create(:new_quiz)
+    @user = @quiz.user
+    patch quiz_path(@quiz)
+    assert_redirected_to login_path
+    assert_nil session[:forwarding_url]
+    post login_path, params: { session: { email:    @user.email,
+                                          password: 'password'} }
+    assert_redirected_to user_path(@user)
+  end
+  
   test "should not log in with unknown user" do
     post login_path, params: { session: { email:    "email",
                                           password: 'password' } }
@@ -61,5 +86,17 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     delete logout_path
     assert_nil session[:user_id]
     assert_redirected_to root_path
+  end
+  
+  test "should stored location for forwarding if get request" do
+    @user = create(:new_user)
+    get user_path(@user)
+    assert_equal session[:forwarding_url], user_url(@user)
+  end
+  
+  test "should not stored location for forwarding for other (patch) request" do
+    @user = create(:new_user)
+    patch user_path(@user)
+    assert_not_equal session[:forwarding_url], user_url(@user)
   end
 end
