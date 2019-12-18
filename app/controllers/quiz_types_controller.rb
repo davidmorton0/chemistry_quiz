@@ -2,7 +2,7 @@ class QuizTypesController < ApplicationController
   before_action :logged_in_user, only: [:show]
   
   def index
-    @quiz_types = QuizType.paginate(page: params[:page], per_page: 5)
+    @quiz_types = QuizType.paginate(page: params[:page], per_page: 10)
   end
 
   def show

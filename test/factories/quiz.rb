@@ -11,6 +11,7 @@
 FactoryBot.define do
   factory :quiz_10_questions, class: Quiz do
     created_at { 5.minutes.ago }
+    score { 0 }
     
     before :create do |quiz|
       quiz.user = create(:new_user)

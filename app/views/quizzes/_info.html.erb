@@ -20,6 +20,6 @@
   <%= link_to "Start again", quiz_type_path(@quiz.quiz_type), class: "btn btn-lg btn-primary quiz" %>
   <%= link_to "Choose a new quiz", quiz_types_path, class: "btn btn-lg btn-primary quiz" %>
   <% similar_quizzes(@quiz).each do |quiz_type| %>
-    <%= render partial: "quiz_button", locals: {quiz_type: quiz_type} %>
+    <%= render partial: "quizzes/quiz_button", locals: {quiz_type: quiz_type} %>
   <% end %>
 </div>
