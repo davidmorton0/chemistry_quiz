@@ -5,7 +5,7 @@
   </div>
   
   <%= form_with model: @quiz, method: "patch", html: {class: "question", name: @quiz.created_at} do |f| %>
-    <div id="row">
+    <div class="row">
       <div class="grid-container">  
         <% @quiz.questions.sort.each_with_index do |question, index| %>
           <%= render partial: "question", locals: {question: question, f: f, index: index} %>
@@ -13,7 +13,7 @@
       </div>
     </div>
   
-    <div id="row">
+    <div class="row">
       <div class="col-sm-12" id="bottom">
         <%= f.button "Answer All", name: "submit", value: "all", class: "answerall" %>
       </div>
