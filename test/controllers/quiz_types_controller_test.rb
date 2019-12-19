@@ -24,6 +24,7 @@ class QuizTypesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create new quiz" do
     @quiz = create(:new_quiz)
+    @quiz.quiz_type.update(name: "Chemical Symbol Quiz")
     @user = @quiz.user
     log_in_as(@user)
     get quiz_type_path(@quiz.quiz_type.id)
