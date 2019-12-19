@@ -1,54 +1,62 @@
 class SubstanceQuiz
-
-  def self.make_substance_quiz(quiz_type, quiz_id)
-    num_questions = quiz_type.num_questions
-
-    if quiz_type.level == 1
-      questions = (0..ChemData::SUBSTANCE.length - 1).to_a.shuffle.take(num_questions)
-    end
-
+  include SubstanceData
+  include FakeNames
+  
+  attr_accessor :quiz, :quiz_type, :num_questions
+  
+  NAMES = (SUBSTANCE.map { |s| s[:name] } + FAKENAMES).uniq
+  ANSWERS = 4
+  
+  def initialize(quiz)
+    @quiz = quiz
+    @quiz_type = quiz.quiz_type
+    @num_questions = @quiz_type.num_questions
+  end
+  
+  def question_index(level)
+    (0..SUBSTANCE.length - 1).to_a
+  end
+  
+  def make_quiz(questions)
     (0..1).each do |x|
       question_info = bonding_question(questions[x])
-      Quiz.find(quiz_id).make_question(question_info)
+      QuestionMaker.new(question_info, @quiz).make_question
     end
     (2..3).each do |x|
       question_info = state_question(questions[x])
-      Quiz.find(quiz_id).make_question(question_info)
+      QuestionMaker.new(question_info, @quiz).make_question
     end
     (4..5).each do |x|
       question_info = colour_question(questions[x])
-      Quiz.find(quiz_id).make_question(question_info)
+      QuestionMaker.new(question_info, @quiz).make_question
     end
     (6..7).each do |x|
       question_info = formula_question(questions[x])
-      Quiz.find(quiz_id).make_question(question_info)
+      QuestionMaker.new(question_info, @quiz).make_question
     end
     (8..9).each do |x|
       question_info = substance_name_question(questions[x])
-      Quiz.find(quiz_id).make_question(question_info)
+      QuestionMaker.new(question_info, @quiz).make_question
     end
   end
   
   #what name
-  def self.substance_name_question(question_index)
-    substance = ChemData::SUBSTANCE[question_index]
-    substances = ChemData::SUBSTANCE.map { |s| s[:name] } + ChemData::FAKENAMES - [substance[:name]]
-    substances_same_letter = (substances.select {|s| s.match(substance[:name][0])} + substances.select {|s| s.match(substance[:formula][0])}).uniq
-    substances_different_letter = substances - substances_same_letter
-    n = [rand(4), substances_same_letter.length].min
-    answers = substances_same_letter.shuffle.take(n) + substances_different_letter.shuffle.take(3 - n) + [substance[:name]]
-    answers.shuffle!
+  def substance_name_question(question_index)
+    question = NamesSelector.new(NAMES, SUBSTANCE[question_index][:name])
+    
+    #substances_same_letter = (names_starting(substance[:name][0]) + names_starting(substance[:formula][0])).uniq
+    #substances_different_letter = NAMES - substances_same_letter
     
     {
-      prompt: "What is the name of the substance with the formula #{substance[:formula]}?",
-      correct_answer: substance[:name],
-      answers: answers
+      prompt: "What is the name of the substance with the formula #{SUBSTANCE[question_index][:formula]}?",
+      correct_answer: question.correct_answer,
+      answers: question.answers(ANSWERS, 50)
     }
   end
   
   #what type of bonding question
-  def self.bonding_question(question_index)
-    substance = ChemData::SUBSTANCE[question_index]
+  def bonding_question(question_index)
+    substance = SUBSTANCE[question_index]
     {
       prompt: "What type of bonding is found in #{substance[:name]}?",
       correct_answer: substance[:bonding],
@@ -57,19 +65,19 @@ class SubstanceQuiz
   end
   
   #what state
-  def self.state_question(question_index)
-    substance = ChemData::SUBSTANCE[question_index]
+  def state_question(question_index)
+    substance = SUBSTANCE[question_index]
     {
       prompt: "What state is #{substance[:name]} at RTP?",
       correct_answer: substance[:state],
-      answers: ["Gas", "Liquid", "Solid"]
+      answers: [ "Solid", "Liquid", "Gas" ]
     }
   end
   
   #what colour
-  def self.colour_question(question_index)
-    substance = ChemData::SUBSTANCE[question_index]
-    answers = (ChemData::SUBSTANCE.map{ |sub| sub[:colour] } - [substance[:colour]]).uniq.take(3)
+  def colour_question(question_index)
+    substance = SUBSTANCE[question_index]
+    answers = (SUBSTANCE.map{ |sub| sub[:colour] } - [substance[:colour]]).uniq.take(3)
     answers.push(substance[:colour]).shuffle
     {
       prompt: "What colour is #{substance[:name]}?",
@@ -79,8 +87,8 @@ class SubstanceQuiz
   end
   
   #what formula
-  def self.formula_question(question_index)
-    substance = ChemData::SUBSTANCE[question_index]
+  def formula_question(question_index)
+    substance = SUBSTANCE[question_index]
     molecule = substance[:entity] == "Molecule" ? "a molecule of " : ""
     answers = modify_formulas(substance[:formula])
     answers.push(substance[:formula]).shuffle
@@ -91,7 +99,7 @@ class SubstanceQuiz
     }
   end
   
-  def self.modify_formulas(formula)
+  def modify_formulas(formula)
     elements = formula.scan(/([A-Z][a-z]?)([0-9]*)/)
     amounts = elements.map{ |element| element[1].empty? ? 1 : element[1].to_i }
     a = ([1,2,3,4].repeated_permutation(amounts.length).to_a - [amounts]).shuffle.take(3)

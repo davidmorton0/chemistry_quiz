@@ -16,7 +16,7 @@ FactoryBot.define do
   end
   
   factory :new_quiz_type, class: QuizType do
-    sequence(:name) { |n| "New Quiz Type #{n}" }
+    name { "Chemical Symbol Quiz" }
     num_questions { 10 }
     difficulty { 1 }
     description { "A Quiz" }

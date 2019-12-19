@@ -14,8 +14,7 @@ to do
 - question help
 - moles quiz
 - active/inactive users on users index
-- mailer tests
-- view tests
+- revise factories
 
 bugs
 - firefox doesn't remember radio buttons on first answer
@@ -70,3 +69,5 @@ done
 - test submitting post requests to answer questions
 - fixed bug: click on quiz from high score when logged out
 - friendly forwarding test
+- mailer tests
+- view tests

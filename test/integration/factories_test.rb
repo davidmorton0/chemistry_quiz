@@ -21,13 +21,7 @@ class FactoriesTest < ActionDispatch::IntegrationTest
     quiz_type = create(:new_quiz_type)
     assert quiz_type.valid?
   end
-  
-  test "quiz types should have different names" do
-    quiz_type1 = create(:new_quiz_type)
-    quiz_type2 = create(:new_quiz_type)
-    assert_not_equal quiz_type1.name, quiz_type2.name
-  end
-  
+
   test "should create a valid score" do
     score = create(:new_score)
     assert score.valid?
