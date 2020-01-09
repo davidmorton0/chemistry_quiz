@@ -3,11 +3,8 @@ require 'test_helper'
 class GlobalHighScoresTest < ActionDispatch::IntegrationTest
 
   test "should get global high score page" do
-    create(:user)
-    create(:quiz_type)
-    create(:score5)
     20.times do
-      create(:quiz_types)
+      create(:new_score, :score_10_5_min)
     end
     get scores_path
     assert_response :success
@@ -21,9 +18,9 @@ class GlobalHighScoresTest < ActionDispatch::IntegrationTest
       assert_select 'a[href=?]', quiz_type_path(quiz_type), text: quiz_type.name
       assert_select 'td', quiz_type.level.to_s
       assert_select 'td', quiz_type.difficulty.to_s
-      #@score = Score.where(quiz_type_id: quiz_type.id).order(score: :desc, fastest_time: :asc).first
-      #assert_select 'td', "#{@score.score} / #{quiz_type.num_questions}"
-      #assert_select 'td', @score.user.name
+      @score = Score.where(quiz_type_id: quiz_type.id).order(score: :desc, fastest_time: :asc).first
+      assert_select 'td', "#{@score.score} / #{quiz_type.num_questions}"
+      assert_select 'td', @score.user.name
     end
   end
 end

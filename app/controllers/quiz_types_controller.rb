@@ -7,9 +7,10 @@ class QuizTypesController < ApplicationController
 
   def show
     current_user.quiz&.destroy
-    QuizMaker.new(
-      current_user.id,
-      params[:id].to_i).make_new_quiz
+    Quiz.create(
+      user_id: current_user.id,
+      quiz_type_id: params[:id].to_i,
+      score: 0).make_new_quiz
     redirect_to quiz_path
   end
 end

@@ -3,11 +3,11 @@ require 'test_helper'
 class QuizAnsweringTest < ActionDispatch::IntegrationTest
   
   def setup
-    @user = create(:user)
-    log_in_as @user
-    @quiz_type = create(:quiz_type)
-    @quiz = create(:quiz)
-    get quiz_path(@quiz_type.id)
+    @quiz = create(:quiz_10_questions, :unanswered, :with_score_5)
+    @user = @quiz.user
+    @quiz_type = @quiz.quiz_type
+    log_in_as(@user)
+    get quiz_path
   end
 
   test "should show blank quiz start page" do
@@ -19,7 +19,6 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
   end
 
   test "should answer a question correctly" do
-=begin
     @question = @quiz.questions.first
     patch quiz_path, params: {
                               "_method"=>"patch",
@@ -38,15 +37,11 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
     @question.reload
     assert_equal @question.answered, true
     assert_equal @question.chosen_answer, @question.correct_answer
-=end
   end
   
   test "should answer a question incorrectly" do
-    10.times do
-      create(:question, :with_answers)
-    end
-    @question = @quiz.questions.second
-    @answer = @question.answers.first.text == @question.correct_answer ? @question.answers.second.text : @question.answers.first.text
+    @question = @quiz.questions.first
+    @answer = "No"
     patch quiz_path, params: {
       "_method"=>"patch",
       "submit"=>@question.id.to_s,
@@ -68,8 +63,7 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
   end
   
   test "should answer question when no answer selected" do
-=begin
-    @question = @quiz.questions.third
+    @question = @quiz.questions.first
     patch quiz_path, params: {
                               "_method"=>"patch",
                               "submit"=>@question.id,
@@ -88,12 +82,10 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
     end
     @question.reload
     assert_equal @question.answered, true
-    assert_nil @question.chosen_answer
-=end
+    assert @question.chosen_answer.blank?
   end
   
   test "should show results at end of test" do
-=begin
     @quiz.questions.each do |question|
       patch quiz_path, params: {
                               "_method"=>"patch",
@@ -113,11 +105,9 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
     assert_equal @quiz.score, ticks
     assert_equal @quiz.questions.count - @quiz.score, crosses
     assert_match "You scored: #{@quiz.score}/#{@quiz.questions.count}", response.body
-=end
   end
   
   test "should answer all unanswered questions" do
-=begin
     patch quiz_path, params: {
                               "_method"=>"patch",
                               "submit"=>"all",
@@ -133,6 +123,5 @@ class QuizAnsweringTest < ActionDispatch::IntegrationTest
     @quiz.reload
     assert_select "div.radio#correct", @quiz.questions.count
     assert_match "You scored: #{@quiz.score}/#{@quiz.questions.count}", response.body
-=end
   end
 end

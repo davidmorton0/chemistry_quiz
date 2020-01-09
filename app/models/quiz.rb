@@ -8,11 +8,17 @@ class Quiz < ApplicationRecord
   validates :user_id,  presence: true
   validates :quiz_type_id,  presence: true
   
-  def answer(answers)
-    QuizAnswerer.new.answer_quiz(self, answers)
+  def answer(answer:, answers:)
+    quiz_answerer = QuizAnswerer.new(quiz: self, answers: answers)
+    quiz_answerer.fill_answers(answer: answer)
+    quiz_answerer.answer_quiz
   end
   
   def update_high_score()
     HighScoreUpdater.new(self).call.join("\n")
+  end
+  
+  def make_new_quiz()
+    QuizMaker.new(quiz: self).make_new_quiz
   end
 end

@@ -32,7 +32,7 @@ class QuizTest < ActiveSupport::TestCase
     assert_equal quiz.score, 0
     answers = {}
     quiz.questions.each{|question| answers[question.id.to_s] = question.correct_answer}
-    quiz.answer(answers)
+    quiz.answer(answer: "Answer All", answers: answers)
     assert_equal quiz.reload.score, 10
   end
   
@@ -41,7 +41,7 @@ class QuizTest < ActiveSupport::TestCase
     assert_equal quiz.score, 0
     answers = {}
     quiz.questions.each{|question| answers[question.id.to_s] = ""}
-    quiz.answer(answers)
+    quiz.answer(answer: "Answer All", answers: answers)
     assert_equal quiz.reload.score, 0
   end
   

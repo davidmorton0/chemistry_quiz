@@ -3,14 +3,18 @@ require 'test_helper'
 class MolesQuizTest < ActionDispatch::IntegrationTest
   
   def setup
-    @quiz = create(:new_quiz)
-    @moles_quiz = MolesQuiz.new(@quiz)
+    @quiz_type = create(:new_quiz_type)
+    @moles_quiz = MolesQuiz.new(
+                    level: @quiz_type.level,
+                    num_questions: @quiz_type.num_questions)
   end
   
   test "should make moles quiz" do
-    assert @moles_quiz.quiz === @quiz
-    @moles_quiz.make_quiz((0..9).to_a)
+    @quiz = create(:new_quiz)
+    question_maker = QuestionMaker.new(quiz: @quiz)
+    @moles_quiz.make_questions(question_maker)
     assert_equal @quiz.questions.count, @quiz.quiz_type.num_questions
+
     @quiz.questions.each do |question|
       assert_equal question.quiz_id, @quiz.id
       assert_equal question.answered, false
@@ -26,27 +30,9 @@ class MolesQuizTest < ActionDispatch::IntegrationTest
   end
   
   test "should get question_index" do
-    (1..3).each do |n|
-      question_index = @moles_quiz.question_index(n)
-      assert_equal question_index.count, question_index.uniq.count
-      assert_operator question_index.count, :>=, 10
-    end
+    question_index = @moles_quiz.question_index
+    assert_equal question_index.count, question_index.uniq.count
+    assert_operator question_index.count, :>=, 10
   end
   
-  test "should make moles question" do
-    question = MolesQuiz.new(@quiz).moles_question(1)
-    assert_match (/How many moles of atoms are there in [\d.]+g of Helium[?]/), question[:prompt]
-    assert_match (/[\d.]+/), question[:correct_answer]
-    assert_equal question[:answers].count, 4
-  end
-  
-  test "should make moles question answers" do
-    question = MolesQuiz.new(@quiz).moles_question(1)
-    assert_equal question[:answers].count, 4
-    assert_equal question[:answers].select{ |answer| answer == question[:correct_answer] }.count, 1
-    assert_equal question[:answers].select{ |answer| answer != question[:correct_answer] }.count, 3
-    question[:answers].each do |answer|
-        assert_match (/[\d.]+/), answer
-      end
-  end
 end
