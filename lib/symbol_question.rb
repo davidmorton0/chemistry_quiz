@@ -1,5 +1,5 @@
 class SymbolQuestion
-  include ElementData
+  include ChemicalData
   
   ANSWERS = 4
   

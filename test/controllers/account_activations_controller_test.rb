@@ -17,7 +17,7 @@ class AccountActivationsControllerTest < ActionDispatch::IntegrationTest
     assert is_logged_in?
     assert_not_nil flash[:success]
     assert_nil flash[:danger]
-    assert_redirected_to @user
+    assert_redirected_to profile_path
   end
   
   test "should not activate when user not found" do

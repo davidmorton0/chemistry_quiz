@@ -1,8 +1,6 @@
 class ElementQuestion
-  include ElementData
-  include FakeNames
+  include ChemicalData
   
-  NAMES = (ELEMENT.map { |s| s[:name] } + FAKENAMES).uniq
   ANSWERS = 4
 
   def element_question(question_index)

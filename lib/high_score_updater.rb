@@ -9,7 +9,7 @@ class HighScoreUpdater
                     user_id: @quiz.user.id)
   end
   
-  def call
+  def update_score
     message = []
     if @quiz.questions
           .select{|question| !question.answered}
