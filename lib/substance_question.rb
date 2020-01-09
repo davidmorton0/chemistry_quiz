@@ -1,17 +1,11 @@
 class SubstanceQuestion
-  include SubstanceData
-  include FakeNames
+  include ChemicalData
   
-  NAMES = (SUBSTANCE.map { |s| s[:name] } + FAKENAMES).uniq
   ANSWERS = 4
   
   #what name
   def substance_name_question(question_index)
     question = NamesSelector.new(NAMES, SUBSTANCE[question_index][:name])
-    
-    #substances_same_letter = (names_starting(substance[:name][0]) + names_starting(substance[:formula][0])).uniq
-    #substances_different_letter = NAMES - substances_same_letter
-    
     {
       prompt: "What is the name of the substance with the formula #{SUBSTANCE[question_index][:formula]}?",
       correct_answer: question.correct_answer,

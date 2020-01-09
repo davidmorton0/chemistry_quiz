@@ -1,5 +1,5 @@
 class MolesQuestion
-  include ElementData
+  include ChemicalData
   
   ANSWERS = 4
   
@@ -12,7 +12,9 @@ class MolesQuestion
     answers = [ (mass * element[:ar]).round(1).to_s,
               (mass * element[:ar] / 2).round(1).to_s,
               (element[:ar] / mass).round(1).to_s,
-              (correct_answer + element[:ar]).to_s ] - [correct_answer.to_s]
+              (correct_answer + element[:ar]).to_s,
+              rand(2 * correct_answer),
+              correct_answer + 1 + rand(1)] - [correct_answer.to_s]
     answers = (answers.uniq.take(ANSWERS - 1) + [correct_answer.to_s]).shuffle
     {
       prompt: "How many moles of atoms are there in #{mass}g of #{ELEMENT[question_index][:name]}?",

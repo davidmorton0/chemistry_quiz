@@ -6,7 +6,7 @@ class HighScoreUpdaterTest < ActiveSupport::TestCase
     @quiz = create(:quiz_10_questions, :correct, :with_score_5)
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_equal @score.score, 5
-    HighScoreUpdater.new(@quiz).call
+    HighScoreUpdater.new(@quiz).update_score
     assert_equal @score.reload.score, 10
   end
 
@@ -14,7 +14,7 @@ class HighScoreUpdaterTest < ActiveSupport::TestCase
     @quiz = create(:quiz_10_questions, :unanswered, :with_score_5)
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_equal @score.score, 5
-    HighScoreUpdater.new(@quiz).call
+    HighScoreUpdater.new(@quiz).update_score
     assert_equal @score.reload.score, @score.score
   end
   
@@ -22,7 +22,7 @@ class HighScoreUpdaterTest < ActiveSupport::TestCase
     @quiz = create(:quiz_10_questions, :correct)
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_nil @score
-    HighScoreUpdater.new(@quiz).call
+    HighScoreUpdater.new(@quiz).update_score
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_equal @score.score, 10
   end
@@ -32,7 +32,7 @@ class HighScoreUpdaterTest < ActiveSupport::TestCase
     @quiz.update(created_at: 1.minute.ago)
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_equal @score.fastest_time, 600
-    HighScoreUpdater.new(@quiz).call
+    HighScoreUpdater.new(@quiz).update_score
     assert_equal @score.reload.fastest_time, 60
   end
   
@@ -41,7 +41,7 @@ class HighScoreUpdaterTest < ActiveSupport::TestCase
     @quiz.update(created_at: 1.minute.ago)
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_nil @score.fastest_time
-    HighScoreUpdater.new(@quiz).call
+    HighScoreUpdater.new(@quiz).update_score
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_equal @score.reload.fastest_time, 60
   end
@@ -51,7 +51,7 @@ class HighScoreUpdaterTest < ActiveSupport::TestCase
     @quiz.update(created_at: 20.minutes.ago)
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_equal @score.fastest_time, 600
-    HighScoreUpdater.new(@quiz).call
+    HighScoreUpdater.new(@quiz).update_score
     assert_equal @score.reload.fastest_time, 600
   end
   
@@ -59,7 +59,7 @@ class HighScoreUpdaterTest < ActiveSupport::TestCase
     @quiz = create(:quiz_10_questions, :unanswered, :with_score_10_10m)
     @score = Score.find_by(user: @quiz.user, quiz_type: @quiz.quiz_type)
     assert_equal @score.fastest_time, 600
-    HighScoreUpdater.new(@quiz).call
+    HighScoreUpdater.new(@quiz).update_score
     assert_equal @score.reload.fastest_time, 600
   end
 end

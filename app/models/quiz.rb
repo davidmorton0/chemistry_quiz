@@ -15,7 +15,7 @@ class Quiz < ApplicationRecord
   end
   
   def update_high_score()
-    HighScoreUpdater.new(self).call.join("\n")
+    HighScoreUpdater.new(self).update_score.join("\n")
   end
   
   def make_new_quiz()
