@@ -3,14 +3,18 @@ require 'test_helper'
 class ElementQuizTest < ActionDispatch::IntegrationTest
   
   def setup
-    @quiz = create(:new_quiz)
-    @element_quiz = ElementQuiz.new(@quiz)
+    @quiz_type = create(:new_quiz_type)
+    @element_quiz = ElementQuiz.new(
+                    level: @quiz_type.level,
+                    num_questions: @quiz_type.num_questions)
   end
   
-  test "should make element quiz" do
-    assert @element_quiz.quiz === @quiz
-    @element_quiz.make_quiz((0..9).to_a)
-    assert_equal @quiz.questions.count, @quiz.quiz_type.num_questions
+  test "should make element questions" do
+    @quiz = create(:new_quiz)
+    question_maker = QuestionMaker.new(quiz: @quiz)
+    @element_quiz.make_questions(question_maker)
+    assert_equal @quiz.questions.count, @quiz_type.num_questions
+    
     @quiz.questions.each do |question|
       assert_equal question.quiz_id, @quiz.id
       assert_equal question.answered, false
@@ -26,27 +30,9 @@ class ElementQuizTest < ActionDispatch::IntegrationTest
   end
   
   test "should get question_index" do
-    (1..3).each do |n|
-      question_index = @element_quiz.question_index(n)
-      assert_equal question_index.count, question_index.uniq.count
-      assert_operator question_index.count, :>=, 10
-    end
+    question_index = @element_quiz.question_index
+    assert_equal question_index.count, question_index.uniq.count
+    assert_operator question_index.count, :>=, 10
   end
-  
-  test "should make element question" do
-    question = ElementQuiz.new(@quiz).element_question(1)
-    assert_equal "What is the element with the symbol He?", question[:prompt]
-    assert_equal "Helium", question[:correct_answer]
-    assert_equal question[:answers].count, 4
-  end
-  
-  test "should make element question answers" do
-    question = ElementQuiz.new(@quiz).element_question(1)
-    assert_equal question[:answers].count, 4
-    assert_equal question[:answers].select{ |answer| answer == "Helium" }.count, 1
-    assert_equal question[:answers].select{ |answer| answer != "Helium" }.count, 3
-    question[:answers].each do |answer|
-        assert_match (/[A-Z][a-z]+/), answer
-      end
-  end
+
 end
